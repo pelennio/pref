@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pref score for 2</title>
+    <script src="scripts/common.js" type="text/javascript" defer></script>
+    <link rel="shortcut icon" href="#" />
+
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+  </head>
+  <body>
+    <div class="block">
+      <div class="circle">
+        <span class="circle-text">20</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th id="player1_Name">Player_1</th>
+            <th id="player2_Name">Player_2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="player1_Mountain">Mountain</td>
+            <td id="player2_Mountain">Mountain</td>
+          </tr>
+          <tr>
+            <td id="player1_Pool">Pool</td>
+            <td id="player2_Pool">Pool</td>
+          </tr>
+          <tr>
+            <td id="player1_Whist">Whist</td>
+            <td id="player2_Whist">Whist</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <button class="button">Start</button> -->
+      <div>
+        <button id="openModalBtn" class="container">Start game</button>
+        <br />
+      </div>
+      <div>
+        <button
+          id="localReset"
+          class="reset"
+          onclick="localStorage.clear(); location.reload()"
+        >
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- The Modal to choose who will play -->
+    <div id="choosePlayerModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="close1" class="close">&times;</span>
+        <h2>Who will play:</h2>
+
+        <div class="modal-options">
+          <button id="option1">Player1_Name</button>
+          <button id="option2">Player2_Name</button>
+          <button id="option3">Raspasovka</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="gameCost_Modal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="close2" class="close">&times;</span>
+        <h2>What will be played:</h2>
+
+        <div class="modal-options">
+          <button id="game-option1">6</button>
+          <button id="game-option2">7</button>
+          <button id="game-option3">8</button>
+          <button id="game-option4">9</button>
+          <button id="game-option5">10</button>
+          <button id="game-option6">Mizer</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="gameResult" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="close3" class="close">&times;</span>
+        <h2 id="resultModalHeader">Select game results:</h2>
+
+        <div class="modal-options">
+          <button id="results-option0">0</button>
+          <button id="results-option1">1</button>
+          <button id="results-option2">2</button>
+          <button id="results-option3">3</button>
+          <button id="results-option4">4</button>
+          <button id="results-option5">5</button>
+          <button id="results-option6">6</button>
+          <button id="results-option7">7</button>
+          <button id="results-option8">8</button>
+          <button id="results-option9">9</button>
+          <button id="results-option10">10</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

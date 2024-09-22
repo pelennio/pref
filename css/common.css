@@ -1,0 +1,172 @@
+/* h2 {
+  text-align: center;
+} */
+
+div {
+  display: block;
+  unicode-bidi: isolate;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--bs-body-bg);
+  font-size: 2.3vmin !important;
+  color: var(--bs-secondary-bg) !important;
+  user-select: none;
+  line-height: 1.5 !important;
+}
+
+.btn-floating.btn-large {
+  width: 56px;
+  height: 56px;
+  padding: 0;
+}
+
+.block {
+  width: 80%; /* Adjust width as needed */
+  height: 80%; /* Adjust height as needed */
+  padding: 20px;
+  position: absolute;
+  background-color: lightgray; /* Background color for the block */
+  border: 2px solid black; /* Border around the block */
+  margin: 50px auto; /* Center the block horizontally */
+  transform: translate(-50%);
+  left: 50%;
+}
+
+table {
+  width: 100%; /* Make the table take up the full width of the block */
+  border-collapse: collapse; /* Merge borders for a cleaner look */
+}
+
+table,
+th,
+td {
+  border: 1px solid black; /* Borders for the table and cells */
+  margin-top: 50px;
+  padding: 10px;
+  text-align: left; /* Align text to the left */
+}
+
+th {
+  background-color: #f2f2f2; /* Background color for table header */
+}
+.circle {
+  width: 100px; /* Diameter of the circle */
+  height: 100px; /* Diameter of the circle */
+  background-color: red; /* Background color of the circle */
+  border-radius: 50%; /* Makes the div a circle */
+  position: absolute;
+  top: 0%; /* Center the circle vertically */
+  left: 50%; /* Center the circle horizontally */
+  transform: translate(-50%, -50%); /* Center the circle precisely */
+}
+
+.circle-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: black;
+}
+
+/* The modal background */
+.modal {
+  display: none; /* Hidden by default */
+  justify-content: center;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+}
+
+/* Modal content box */
+.modal-content {
+  background-color: rgb(250, 236, 236);
+  /* margin: 15% auto; 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Close button for the modal */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Styling for modal options */
+.modal-options {
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  /* position: absolute; */
+}
+
+button {
+  /* position: relative; */
+  /* transform: translate(-50%, -50%); */
+  border: none;
+  border-radius: 4px;
+  background: linear-gradient(45deg, #ff6b6b, #f06595);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  margin-right: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  width: 30%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /* top: 50%;
+  left: 50%; */
+  flex: 1;
+}
+
+button:hover {
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+}
+
+#localReset {
+  /* left: 80%; */
+  background: linear-gradient(45deg, #585555, #9a8d92);
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.reset {
+  position: absolute;
+  top: 5%;
+  left: 83%;
+  transform: translate(-50%, -50%);
+}

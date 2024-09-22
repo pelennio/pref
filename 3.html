@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Center Button with Flexbox</title>
+    <style>
+      body,
+      html {
+        height: 100%; /* Make sure the body and html cover the full viewport */
+        margin: 0;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center; /* Aligns horizontally */
+        align-items: center; /* Aligns vertically */
+        height: 100vh; /* Full viewport height */
+      }
+
+      .btn {
+        padding: 10px 20px;
+        background-color: blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <button class="btn">Centered Button</button>
+    </div>
+  </body>
+</html>

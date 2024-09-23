@@ -58,9 +58,19 @@ let requiredWhist = 0;
 let raspasCount = 0;
 let scoreRas = 0;
 let mizerGame = false;
+let player1_dealer = true;
 
-document.getElementById((id = "player1_Name")).textContent = player1_Name;
-document.getElementById((id = "player2_Name")).textContent = player2_Name;
+document.getElementById((id = "player1_Name")).innerHTML =
+  (player1_dealer
+    ? '<img src="/icon-82-512.webp" alt="Image description" width="30" />' +
+      "  "
+    : "") + player1_Name;
+
+document.getElementById((id = "player2_Name")).innerHTML =
+  (!player1_dealer
+    ? '<img src="/icon-82-512.webp" alt="Image description" width="30" />' +
+      "  "
+    : "") + player2_Name;
 
 // When the user clicks the button "Start game", open the modal with option to choose the player
 openModalBtn.onclick = function () {
@@ -426,25 +436,26 @@ function resultsScore() {
     player2_Whist = 0;
   }
 
-  console.log(
-    "player1_Mountain",
-    player1_Mountain,
-    "player2_Mountain",
-    player2_Mountain,
-    "player1_Pool",
-    player1_Pool,
-    "player2_Pool",
-    player2_Pool,
-    "player1_Whist",
-    player1_Whist,
-    "player2_Whist",
-    player2_Whist
-  );
   let resultsPl1 = player1_Whist - player2_Whist;
   let resultsPl2 = player2_Whist - player1_Whist;
-  document.getElementById("player1_Name").innerText =
-    player1_Name + "(" + resultsPl1 + ")";
-  document.getElementById("player2_Name").innerText =
-    player2_Name + "(" + resultsPl2 + ")";
-  console.log(resultsPl1, resultsPl2);
+  player1_dealer = !player1_dealer;
+  document.getElementById("player1_Name").innerHTML =
+    (player1_dealer
+      ? '<img src="/icon-82-512.webp" alt="Image description" width="30" />' +
+        "  "
+      : "") +
+    player1_Name +
+    "(" +
+    resultsPl1 +
+    ")";
+
+  document.getElementById("player2_Name").innerHTML =
+    (player1_dealer
+      ? ""
+      : '<img src="/icon-82-512.webp" alt="Image description" width="30" />' +
+        "  ") +
+    player2_Name +
+    "(" +
+    resultsPl2 +
+    ")";
 }

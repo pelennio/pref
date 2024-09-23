@@ -10,6 +10,8 @@ div {
 body {
   font-family: Arial, sans-serif;
   background-color: var(--bs-body-bg);
+  color: black;
+
   font-size: 2.3vmin !important;
   color: var(--bs-secondary-bg) !important;
   user-select: none;
@@ -54,7 +56,8 @@ th {
 .circle {
   width: 100px; /* Diameter of the circle */
   height: 100px; /* Diameter of the circle */
-  background-color: red; /* Background color of the circle */
+  background: linear-gradient(45deg, #585555, #9a8d92);
+  border: 1px solid black;
   border-radius: 50%; /* Makes the div a circle */
   position: absolute;
   top: 0%; /* Center the circle vertically */

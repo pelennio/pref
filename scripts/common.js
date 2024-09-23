@@ -59,16 +59,14 @@ let raspasCount = 0;
 let scoreRas = 0;
 let mizerGame = false;
 let player1_dealer = true;
+let deal_image =
+  '<img src="/src/1804142.png" alt="Current dealer" width="30" />';
 
 document.getElementById((id = "player1_Name")).innerHTML =
-  (player1_dealer
-    ? '<img src="/1804142.png" alt="Image description" width="30" />' + "  "
-    : "") + player1_Name;
+  (player1_dealer ? deal_image + "  " : "") + player1_Name;
 
 document.getElementById((id = "player2_Name")).innerHTML =
-  (!player1_dealer
-    ? '<img src="/1804142.png" alt="Image description" width="30" />' + "  "
-    : "") + player2_Name;
+  (!player1_dealer ? deal_image + "  " : "") + player2_Name;
 
 // When the user clicks the button "Start game", open the modal with option to choose the player
 openModalBtn.onclick = function () {
@@ -438,19 +436,14 @@ function resultsScore() {
   let resultsPl2 = player2_Whist - player1_Whist;
   player1_dealer = !player1_dealer;
   document.getElementById("player1_Name").innerHTML =
-    (player1_dealer
-      ? '<img src="/1804142.png" alt="Image description" width="30" />' + "  "
-      : "") +
+    (player1_dealer ? deal_image + "  " : "") +
     player1_Name +
     "(" +
     resultsPl1 +
     ")";
 
   document.getElementById("player2_Name").innerHTML =
-    (player1_dealer
-      ? ""
-      : '<img src="/1804142.png" alt="Image description" width="30" />' +
-        "  ") +
+    (player1_dealer ? "" : deal_image + "  ") +
     player2_Name +
     "(" +
     resultsPl2 +

@@ -62,14 +62,12 @@ let player1_dealer = true;
 
 document.getElementById((id = "player1_Name")).innerHTML =
   (player1_dealer
-    ? '<img src="/icon-82-512.webp" alt="Image description" width="30" />' +
-      "  "
+    ? '<img src="/1804142.png" alt="Image description" width="30" />' + "  "
     : "") + player1_Name;
 
 document.getElementById((id = "player2_Name")).innerHTML =
   (!player1_dealer
-    ? '<img src="/icon-82-512.webp" alt="Image description" width="30" />' +
-      "  "
+    ? '<img src="/1804142.png" alt="Image description" width="30" />' + "  "
     : "") + player2_Name;
 
 // When the user clicks the button "Start game", open the modal with option to choose the player
@@ -441,8 +439,7 @@ function resultsScore() {
   player1_dealer = !player1_dealer;
   document.getElementById("player1_Name").innerHTML =
     (player1_dealer
-      ? '<img src="/icon-82-512.webp" alt="Image description" width="30" />' +
-        "  "
+      ? '<img src="/1804142.png" alt="Image description" width="30" />' + "  "
       : "") +
     player1_Name +
     "(" +
@@ -452,7 +449,7 @@ function resultsScore() {
   document.getElementById("player2_Name").innerHTML =
     (player1_dealer
       ? ""
-      : '<img src="/icon-82-512.webp" alt="Image description" width="30" />' +
+      : '<img src="/1804142.png" alt="Image description" width="30" />' +
         "  ") +
     player2_Name +
     "(" +

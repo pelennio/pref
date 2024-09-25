@@ -16,6 +16,8 @@ body {
   color: var(--bs-secondary-bg) !important;
   user-select: none;
   line-height: 1.5 !important;
+  text-shadow: 2px 2px 4px rgba(247, 245, 245, 0.7);
+  font-weight: bold;
 }
 
 .block {
@@ -29,7 +31,7 @@ body {
   transform: translate(-50%);
   left: 50%;
   background-repeat: no-repeat;
-  background: url(https://img.freepik.com/free-vector/flat-design-poker-table-background_23-2151047002.jpg?w=1800&t=st=1727232079~exp=1727232679~hmac=5d56bc3e24594515d7d443f131214b3be46fb99563b9076a5b031261cc7bd9a9);
+  background: url(../src/poker-table.jpg);
   background-size: contain;
 }
 
@@ -137,9 +139,9 @@ th {
 button {
   /* position: relative; */
   /* transform: translate(-50%, -50%); */
-  border: none;
+  border: rgb(2, 14, 2);
   border-radius: 4px;
-  background: linear-gradient(45deg, #ff6b6b, #f06595);
+  background: linear-gradient(45deg, #09e611, #179f42);
   cursor: pointer;
   transition: box-shadow 0.3s ease;
   margin-right: 10px;
@@ -157,7 +159,7 @@ button {
 button:hover {
   color: white;
   font-weight: 500;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+  box-shadow: 0 8px 16px rgba(164, 184, 164, 0.4); /* Shadow on hover */
 }
 
 .container {

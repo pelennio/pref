@@ -433,14 +433,14 @@ function resultsScore() {
   // adjust Mountain
   if (player1_Mountain < player2_Mountain) {
     player2_Mountain = player2_Mountain - player1_Mountain;
-    player1_Whist = player1_Whist + player2_Mountain * 10;
+    player1_Whist = player1_Whist + player2_Mountain * 5;
     player1_Mountain = 0;
   } else if (player1_Mountain == player2_Mountain) {
     player1_Mountain = 0;
     player2_Mountain = 0;
   } else if (player1_Mountain > player2_Mountain) {
     player1_Mountain = player1_Mountain - player2_Mountain;
-    player2_Whist = player2_Whist + player1_Mountain * 10;
+    player2_Whist = player2_Whist + player1_Mountain * 5;
     player2_Mountain = 0;
   }
 

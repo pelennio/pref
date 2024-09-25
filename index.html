@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pref score for 2</title>
-    <script src="scripts/common.js" type="text/javascript" defer></script>
+    <script type="module"  src="scripts/common.js" type="text/javascript" defer></script>
     <link rel="shortcut icon" href="#" />
 
     <link rel="stylesheet" type="text/css" href="css/common.css" />
@@ -16,7 +16,7 @@
       </div>
       <button
       id="localReset"
-      class="reset"
+      class="reset poker-button"
       onclick="localStorage.clear(); location.reload()"
     >
       Reset
@@ -24,7 +24,7 @@
 
     <button
       id="undo"
-      class="reset"
+      class="reset poker-button"
      
     >
       Undo
@@ -54,7 +54,7 @@
       </table>
       <!-- <button class="button">Start</button> -->
       <div>
-        <button id="openModalBtn" class="container">Start game</button>
+        <button id="openModalBtn" class="container poker-button">Start game</button>
         <br />
       </div>
        
@@ -69,9 +69,9 @@
         <h2>Who will play:</h2>
 
         <div class="modal-options">
-          <button id="option1">Player1_Name</button>
-          <button id="option2">Player2_Name</button>
-          <button id="option3">Raspasovka</button>
+          <button id="option1" class="option-button">Player1_Name</button>
+          <button id="option2" class="option-button">Player2_Name</button>
+          <button id="option3" class="option-button">Raspasovka</button>
         </div>
       </div>
     </div>
@@ -83,12 +83,12 @@
         <h2>What will be played:</h2>
 
         <div class="modal-options">
-          <button id="game-option1">6</button>
-          <button id="game-option2">7</button>
-          <button id="game-option3">8</button>
-          <button id="game-option4">9</button>
-          <button id="game-option5">10</button>
-          <button id="game-option6">Mizer</button>
+          <button id="game-option1" class="option-button">6</button>
+          <button id="game-option2" class="option-button">7</button>
+          <button id="game-option3" class="option-button">8</button>
+          <button id="game-option4" class="option-button">9</button>
+          <button id="game-option5" class="option-button">10</button>
+          <button id="game-option6" class="option-button">Mizer</button>
         </div>
       </div>
     </div>
@@ -100,17 +100,17 @@
         <h2 id="resultModalHeader">Select game results:</h2>
 
         <div class="modal-options">
-          <button id="results-option0">0</button>
-          <button id="results-option1">1</button>
-          <button id="results-option2">2</button>
-          <button id="results-option3">3</button>
-          <button id="results-option4">4</button>
-          <button id="results-option5">5</button>
-          <button id="results-option6">6</button>
-          <button id="results-option7">7</button>
-          <button id="results-option8">8</button>
-          <button id="results-option9">9</button>
-          <button id="results-option10">10</button>
+          <button id="results-option0" class="option-button">0</button>
+          <button id="results-option1" class="option-button">1</button>
+          <button id="results-option2" class="option-button">2</button>
+          <button id="results-option3" class="option-button">3</button>
+          <button id="results-option4" class="option-button">4</button>
+          <button id="results-option5" class="option-button">5</button>
+          <button id="results-option6" class="option-button">6</button>
+          <button id="results-option7" class="option-button">7</button>
+          <button id="results-option8" class="option-button">8</button>
+          <button id="results-option9" class="option-button">9</button>
+          <button id="results-option10" class="option-button">10</button>
         </div>
       </div>
     </div>

@@ -1,22 +1,20 @@
-/* h2 {
-  text-align: center;
-} */
-
 div {
   display: block;
   unicode-bidi: isolate;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #0de414d9;
-
-  font-size: 2.3vmin !important;
-  color: var(--bs-secondary-bg) !important;
+  font-family: "Montserrat", sans-serif; /* Modern, clean font */
+  background: radial-gradient(circle at center, #1b1c1e, #101113);
+  color: #f2f2f2;
+  margin: 0;
+  padding: 0;
   user-select: none;
-  line-height: 1.5 !important;
-  text-shadow: 2px 2px 4px rgba(247, 245, 245, 0.7);
+  line-height: 1.6;
+  /* text-shadow: 2px 2px 4px rgba(247, 245, 245, 0.7); */
   font-weight: bold;
+  min-height: 100vh;
+  animation: fadeIn 1s ease-in-out;
 }
 
 .block {
@@ -47,10 +45,17 @@ td {
   padding: 10px;
   text-align: left; /* Align text to the left */
   vertical-align: middle;
+
   background-color: rgba(229, 245, 247, 0.2); /* 50% transparency */
+}
+h2 {
+  color: #f3c13a;
+  font-weight: bold;
+  border-bottom: 2px solid #f3c13a;
 }
 
 th {
+  text-transform: uppercase;
   background-color: rgba(
     229,
     245,
@@ -64,9 +69,9 @@ th {
   background: linear-gradient(45deg, #585555, #9a8d92);
   border: 1px solid black;
   border-radius: 50%; /* Makes the div a circle */
-  position: absolute;
-  top: 0%; /* Center the circle vertically */
-  left: 50%; /* Center the circle horizontally */
+  position: relative;
+  top: 20%; /* Center the circle vertically */
+  left: 20%; /* Center the circle horizontally */
   transform: translate(-50%, -50%); /* Center the circle precisely */
 }
 
@@ -85,6 +90,7 @@ th {
 .modal {
   display: none; /* Hidden by default */
   justify-content: center;
+  border-radius: 12px;
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
@@ -116,6 +122,7 @@ th {
   float: right;
   font-size: 28px;
   font-weight: bold;
+  transition: color 0.3s ease;
 }
 
 .close:hover,
@@ -170,8 +177,75 @@ button:hover {
 
 .reset {
   position: relative;
-  top: 5%;
+  top: -5%;
   left: 83%;
   transform: translate(-50%, -50%);
   background: linear-gradient(45deg, #585555, #9a8d92);
+}
+.poker-button {
+  background: linear-gradient(45deg, #2d2b2b, #4a4949);
+  color: #ffffff;
+  border: 2px solid #d1a441; /* Goldish border for a luxury casino feel */
+  border-radius: 50px;
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  /* position: relative; */
+  overflow: hidden;
+}
+
+/* Hover effect for the button */
+.poker-button:hover {
+  background: linear-gradient(45deg, #1e1d1d, #383838);
+  border-color: #f3c13a; /* Slightly brighter border on hover */
+  color: #f3c13a;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Adding a shine effect */
+.poker-button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(45deg);
+  transition: all 0.75s ease;
+  z-index: 0;
+}
+
+.poker-button:hover::before {
+  top: -150%;
+  left: -150%;
+}
+
+/* Optional glow effect */
+.poker-button:focus {
+  outline: none;
+  box-shadow: 0 0 15px 4px rgba(241, 199, 84, 0.75);
+}
+
+.option-button {
+  background: linear-gradient(
+    135deg,
+    #4e4b4b,
+    #292828
+  ); /* Dark, metallic-like background */
+  color: #f3c13a; /* Gold color for the text */
+  font-size: 16px;
+  font-weight: bold;
+
+  border: 2px solid #000; /* Black border */
+  border-radius: 100px; /* Rounded button shape */
+  padding: 15px 30px;
+
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* Slight shadow for depth */
 }

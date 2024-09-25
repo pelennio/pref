@@ -10,12 +10,14 @@ const gameResult = document.getElementById("gameResult");
 const closeModal1 = document.getElementById("close1");
 const closeModal2 = document.getElementById("close2");
 const closeModal3 = document.getElementById("close3");
+const undoBtn = document.getElementById("undo");
 const resultHeader = document.getElementById("resultModalHeader");
 
 // html body div#gameResult.modal div.modal-content h2
 
 window.addEventListener("load", function () {
   loadDataFromLocalStorage(); // Load data from localStorage after the page is loaded
+  resultsScore(); // add score for each player next to the name
 });
 
 //Load all scores on page load
@@ -60,7 +62,7 @@ let scoreRas = 0;
 let mizerGame = false;
 let player1_dealer = true;
 let deal_image =
-  '<img src="/src/1804142.png" alt="Current dealer" width="30" />';
+  '<img src="./src/1804142.png" alt="Current dealer" width="30" />';
 
 document.getElementById((id = "player1_Name")).innerHTML =
   (player1_dealer ? deal_image + "  " : "") + player1_Name;
@@ -73,6 +75,12 @@ openModalBtn.onclick = function () {
   modal.style.display = "flex";
   document.getElementById("option1").innerText = player1_Name;
   document.getElementById("option2").innerText = player2_Name;
+};
+
+undoBtn.onclick = function () {
+  localStorage.clear();
+  restorePreviousStorage();
+  location.reload();
 };
 
 // When the user clicks on <span> (x), close the modal
@@ -102,7 +110,7 @@ function setBulletPoints(contract) {
   currentGameCost = contract;
   gameCost_Modal.style.display = "none";
   gameResult.style.display = "flex";
-  console.log("Current game points: ", currentGameCost);
+  console.log("Current game cost: ", currentGameCost);
 }
 
 //When user sets the player -> the options for the current game is shown
@@ -111,7 +119,6 @@ document.getElementById("option1").onclick = function () {
   modal.style.display = "none"; // Close modal after selection
   currentPlayer = 1;
   whistPlayer = 2;
-  raspasCount = 0;
 };
 
 document.getElementById("option2").onclick = function () {
@@ -173,6 +180,7 @@ function updateMountain(player, score) {
   )
     ? Number(localStorage.getItem(`${player}_Mountain_Total`))
     : 0;
+
   currentMountainScoreString = String(
     localStorage.getItem(`${player}_Mountain`)
   )
@@ -244,13 +252,6 @@ function updateWhist(player, score) {
   );
 }
 
-function updateScore(expression) {
-  localStorage.setItem(
-    `${expression} score: ${multiplicatorValue}`,
-    String(score)
-  );
-}
-
 //// Handle game results
 document.getElementById("results-option0").onclick = function () {
   playersTricks = 0;
@@ -297,6 +298,13 @@ document.getElementById("results-option10").onclick = function () {
   runResultsCalculation();
 };
 
+// function for undo last game results
+function storePreviousScores() {
+  for (let i = 0; i < localStorage.length; i++) {
+    let key = localStorage.key(i);
+    previousLocalStorage[key] = localStorage.getItem(key);
+  }
+}
 //// new one
 function runResultsCalculation() {
   console.log("playersTricks", playersTricks);
@@ -350,6 +358,7 @@ function runResultsCalculation() {
       );
     }
   }
+  storePreviousScores();
   if (mizerGame) {
     if (playersTricks > 0) {
       scoreRas = playersTricks * currentGame;
@@ -368,11 +377,24 @@ function runResultsCalculation() {
     checkMountain();
     gameResult.style.display = "none";
   }
+
+  console.log("previousLocalStorage", previousLocalStorage);
   resultsScore();
+}
+let previousLocalStorage = [];
+
+function restorePreviousStorage() {
+  for (let key in previousLocalStorage) {
+    console.log("1:  ", `${key}: ${previousLocalStorage[key]}`);
+    console.log("2:  ", key, previousLocalStorage[key]);
+
+    localStorage.setItem(key, previousLocalStorage[key]);
+  }
 }
 
 function resultsScore() {
   const aimPool = 20;
+  // read all current data from local storage and save them as variables
   let player1_Mountain = Number(
     localStorage.getItem(`1_Mountain_Total`) || "0"
   );
@@ -399,6 +421,7 @@ function resultsScore() {
     player2_Whist
   );
 
+  // add Mountain for player with not enough pool
   if (player1_Pool < aimPool) {
     player1_Mountain = player1_Mountain + (aimPool - player1_Pool) * 2;
     player1_Pool = aimPool;
@@ -407,7 +430,7 @@ function resultsScore() {
     player2_Mountain = player2_Mountain + (aimPool - player2_Pool) * 2;
     player2_Pool = aimPool;
   }
-
+  // adjust Mountain
   if (player1_Mountain < player2_Mountain) {
     player2_Mountain = player2_Mountain - player1_Mountain;
     player1_Whist = player1_Whist + player2_Mountain * 10;
@@ -421,16 +444,19 @@ function resultsScore() {
     player2_Mountain = 0;
   }
 
-  if (player1_Whist < player2_Whist) {
-    player2_Whist = player2_Whist - player1_Whist;
-    player1_Whist = 0;
-  } else if (player1_Whist == player2_Whist) {
-    player2_Whist = 0;
-    player1_Whist = 0;
-  } else if (player1_Whist > player2_Whist) {
-    player1_Whist = player1_Whist - player2_Whist;
-    player2_Whist = 0;
-  }
+  let midWhist = (player1_Whist + player2_Whist) / 2;
+  player1_Whist = player1_Whist - midWhist;
+  player2_Whist = player2_Whist - midWhist;
+  // if (player1_Whist < player2_Whist) {
+  //   player2_Whist = player2_Whist - player1_Whist;
+  //   player1_Whist = 0;
+  // } else if (player1_Whist == player2_Whist) {
+  //   player2_Whist = 0;
+  //   player1_Whist = 0;
+  // } else if (player1_Whist > player2_Whist) {
+  //   player1_Whist = player1_Whist - player2_Whist;
+  //   player2_Whist = 0;
+  // }
 
   let resultsPl1 = player1_Whist - player2_Whist;
   let resultsPl2 = player2_Whist - player1_Whist;
@@ -438,14 +464,14 @@ function resultsScore() {
   document.getElementById("player1_Name").innerHTML =
     (player1_dealer ? deal_image + "  " : "") +
     player1_Name +
-    "(" +
+    " (" +
     resultsPl1 +
     ")";
 
   document.getElementById("player2_Name").innerHTML =
     (player1_dealer ? "" : deal_image + "  ") +
     player2_Name +
-    "(" +
+    " (" +
     resultsPl2 +
     ")";
 }

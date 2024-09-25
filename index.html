@@ -14,11 +14,26 @@
       <div class="circle">
         <span class="circle-text">20</span>
       </div>
+      <button
+      id="localReset"
+      class="reset"
+      onclick="localStorage.clear(); location.reload()"
+    >
+      Reset
+    </button>  </br>
+
+    <button
+      id="undo"
+      class="reset"
+     
+    >
+      Undo
+    </button>
 
       <table>
         <thead>
           <tr>
-            <th id="player1_Name" style="width: 50%">Player 1</th>
+            <th id="player1_Name" style="width: 50%" >Player_1 </th>
             <th id="player2_Name" style="width: 50%">Player_2</th>
           </tr>
         </thead>
@@ -42,14 +57,7 @@
         <button id="openModalBtn" class="container">Start game</button>
         <br />
       </div>
-      <div>
-        <button
-          id="localReset"
-          class="reset"
-          onclick="localStorage.clear(); location.reload()"
-        >
-          Reset
-        </button>
+       
       </div>
     </div>
 

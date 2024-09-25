@@ -18,12 +18,6 @@ body {
   line-height: 1.5 !important;
 }
 
-.btn-floating.btn-large {
-  width: 56px;
-  height: 56px;
-  padding: 0;
-}
-
 .block {
   width: 80%; /* Adjust width as needed */
   height: 80%; /* Adjust height as needed */
@@ -34,6 +28,9 @@ body {
   margin: 50px auto; /* Center the block horizontally */
   transform: translate(-50%);
   left: 50%;
+  background-repeat: no-repeat;
+  background: url(https://img.freepik.com/free-vector/flat-design-poker-table-background_23-2151047002.jpg?w=1800&t=st=1727232079~exp=1727232679~hmac=5d56bc3e24594515d7d443f131214b3be46fb99563b9076a5b031261cc7bd9a9);
+  background-size: contain;
 }
 
 table {
@@ -48,10 +45,17 @@ td {
   margin-top: 50px;
   padding: 10px;
   text-align: left; /* Align text to the left */
+  vertical-align: middle;
+  background-color: rgba(229, 245, 247, 0.2); /* 50% transparency */
 }
 
 th {
-  background-color: #f2f2f2; /* Background color for table header */
+  background-color: rgba(
+    229,
+    245,
+    247,
+    0.524
+  ); /* Background color for table header */
 }
 .circle {
   width: 100px; /* Diameter of the circle */
@@ -156,21 +160,17 @@ button:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Shadow on hover */
 }
 
-#localReset {
-  /* left: 80%; */
-  background: linear-gradient(45deg, #585555, #9a8d92);
-}
-
 .container {
   position: absolute;
-  top: 60%;
+  top: 75%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .reset {
-  position: absolute;
+  position: relative;
   top: 5%;
   left: 83%;
   transform: translate(-50%, -50%);
+  background: linear-gradient(45deg, #585555, #9a8d92);
 }

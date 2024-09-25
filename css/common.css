@@ -65,7 +65,7 @@ td {
   padding: 10px;
   text-align: left; /* Align text to the left */
   vertical-align: middle;
-
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   background-color: rgba(229, 245, 247, 0.2); /* 50% transparency */
 }
 h2 {
@@ -90,6 +90,9 @@ th {
   border: 1px solid black;
   border-radius: 50%; /* Makes the div a circle */
   position: relative;
+  border: 2px solid #d1a441;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+
   /* top: 20%; Center the circle vertically */
   /* left: 20%; Center the circle horizontally */
   /* transform: translate(-50%, -50%); Center the circle precisely */

@@ -42,7 +42,7 @@ let scoreRas = 0;
 let mizerGame = false;
 let player1_dealer = true;
 let deal_image =
-  '<img src="./src/1804142.png" alt="Current dealer" width="30" />';
+  '<img src="./src/1804142.png" alt="Current dealer" width="30" style="vertical-align: middle;" />';
 
 document.getElementById("player1_Name").innerHTML =
   (player1_dealer ? deal_image + "  " : "") + player1_Name;
@@ -333,7 +333,7 @@ function runResultsCalculation() {
       } else if (playersTricks == 10 - playersTricks) {
         scoreRas = 0;
       }
-      updateMountain((player = currentPlayer), scoreRas);
+      updateMountain(currentPlayer, scoreRas);
     }
   }
   function checkWhists() {
@@ -347,7 +347,7 @@ function runResultsCalculation() {
   function checkWhistMointain() {
     if (10 - playersTricks < requiredWhist) {
       updateMountain(
-        (player = whistPlayer),
+        whistPlayer,
         currentGameCost * (requiredWhist - (10 - playersTricks))
       );
     }

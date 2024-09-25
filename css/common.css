@@ -14,7 +14,27 @@ body {
   /* text-shadow: 2px 2px 4px rgba(247, 245, 245, 0.7); */
   font-weight: bold;
   min-height: 100vh;
+  height: 100%;
+  width: 100%;
   animation: fadeIn 1s ease-in-out;
+  overflow: hidden; /* Disable scrolling */
+}
+
+/* Container for the circle and buttons */
+.flex-container {
+  display: flex;
+  justify-content: space-between; /* Align items to opposite sides */
+  align-items: center; /* Center items vertically */
+  width: 100%; /* Full width of the container */
+  padding: 20px;
+}
+/* Buttons on the right */
+.button-container {
+  display: flex;
+  gap: 10px; /* Space between the buttons */
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
 }
 
 .block {
@@ -70,9 +90,9 @@ th {
   border: 1px solid black;
   border-radius: 50%; /* Makes the div a circle */
   position: relative;
-  top: 20%; /* Center the circle vertically */
-  left: 20%; /* Center the circle horizontally */
-  transform: translate(-50%, -50%); /* Center the circle precisely */
+  /* top: 20%; Center the circle vertically */
+  /* left: 20%; Center the circle horizontally */
+  /* transform: translate(-50%, -50%); Center the circle precisely */
 }
 
 .circle-text {
@@ -177,9 +197,10 @@ button:hover {
 
 .reset {
   position: relative;
-  top: -5%;
+  width: 90%; /* Make buttons take up full width of the container */
+  /* top: -5%;
   left: 83%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
   background: linear-gradient(45deg, #585555, #9a8d92);
 }
 .poker-button {
@@ -244,8 +265,8 @@ button:hover {
 
   border: 2px solid #000; /* Black border */
   border-radius: 100px; /* Rounded button shape */
-  padding: 15px 30px;
-
+  padding: 15px 10px;
+  text-align: center;
   transition: all 0.3s ease;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* Slight shadow for depth */
 }

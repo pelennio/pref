@@ -11,24 +11,41 @@
   </head>
   <body>
     <div class="block">
-      <div class="circle">
-        <span class="circle-text">20</span>
-      </div>
-      <button
-      id="localReset"
-      class="reset poker-button"
-      onclick="localStorage.clear(); location.reload()"
-    >
-      Reset
-    </button>  </br>
+      
 
-    <button
-      id="undo"
-      class="reset poker-button"
-     
-    >
-      Undo
-    </button>
+
+
+      <div class="flex-container">
+        <!-- Circle on the left -->
+        <div class="circle">
+          <span class="circle-text">20</span>
+        </div>
+      
+        <!-- Buttons on the right -->
+        <div class="button-container">
+          <button
+          id="localReset"
+          class="reset poker-button"
+          onclick="localStorage.clear(); location.reload()"
+        >
+          Reset
+        </button>  </br>
+    
+        <button
+          id="undo"
+          class="reset poker-button"
+         
+        >
+          Undo
+        </button>
+        </div>
+      </div>
+
+      
+
+
+      
+      
 
       <table>
         <thead>

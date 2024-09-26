@@ -11,8 +11,11 @@ const gameResult = document.getElementById("gameResult");
 const closeModal1 = document.getElementById("close1");
 const closeModal2 = document.getElementById("close2");
 const closeModal3 = document.getElementById("close3");
+const closeModal4 = document.getElementById("close4");
 const undoBtn = document.getElementById("undo");
 const resultHeader = document.getElementById("resultModalHeader");
+const resetConfirmation = document.getElementById("resetConfirmation");
+const cancelReset = document.getElementById("cancelReset");
 const aimPool = 20;
 
 // html body div#gameResult.modal div.modal-content h2
@@ -73,7 +76,9 @@ closeModal2.onclick = function () {
 closeModal3.onclick = function () {
   gameResult.style.display = "none";
 };
-
+closeModal4.onclick = function () {
+  resetConfirmation.style.display = "none";
+};
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
   if (event.target == modal) {
@@ -99,6 +104,20 @@ document.getElementById("option1").onclick = function () {
   modal.style.display = "none"; // Close modal after selection
   currentPlayer = 1;
   whistPlayer = 2;
+};
+
+document.getElementById("localReset").onclick = function () {
+  resetConfirmation.style.display = "flex"; // open the modal with game types
+};
+
+document.getElementById("confirm").onclick = function () {
+  localStorage.clear();
+  location.reload();
+  resetConfirmation.style.display = "none"; // open the modal with game types
+};
+
+cancelReset.onclick = function () {
+  resetConfirmation.style.display = "none"; // open the modal with game types
 };
 
 document.getElementById("option2").onclick = function () {

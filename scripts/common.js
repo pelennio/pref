@@ -16,7 +16,7 @@ const undoBtn = document.getElementById("undo");
 const resultHeader = document.getElementById("resultModalHeader");
 const resetConfirmation = document.getElementById("resetConfirmation");
 const cancelReset = document.getElementById("cancelReset");
-const aimPool = 20;
+const aimPool = 10;
 
 // html body div#gameResult.modal div.modal-content h2
 

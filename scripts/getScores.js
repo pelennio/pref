@@ -40,3 +40,6 @@ export function getCurrentWhistScore(player) {
 export function getCurrentWhistString(player) {
   return localStorage.getItem(`${player}_Whist`);
 }
+export function getPlayerName(player) {
+  return localStorage.getItem(`player${player}_Name`) || `player_${player}`;
+}

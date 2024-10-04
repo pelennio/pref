@@ -1,5 +1,5 @@
 export {
-  openModalBtn,
+  playNewGame,
   modal,
   gameCost_Modal,
   gameResult,
@@ -22,7 +22,7 @@ export {
 };
 
 // Get button that opens the modal "Start game" - modal1
-const openModalBtn = document.getElementById("openModalBtn");
+const playNewGame = document.getElementById("playNewGame");
 
 // Get modal element
 const modal = document.getElementById("modal1");

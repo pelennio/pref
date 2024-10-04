@@ -1,9 +1,6 @@
 import * as getScore from "./getScores.js";
 import * as el from "./components.js";
 
-let newPool;
-let aimPool = localStorage.getItem("newPool") || 10;
-
 window.addEventListener("load", function () {
   document.getElementById("poolText").textContent =
     localStorage.getItem("newPool") || 10;
@@ -11,17 +8,15 @@ window.addEventListener("load", function () {
   resultsScore(); // add score for each player next to the name
 });
 
-let bulletPoints = 0;
-let player1_Name = "Anton";
-let player2_Name = "Olena";
+let player1_Name = getScore.getPlayerName(1);
+let player2_Name = getScore.getPlayerName(2);
+let newPool;
+let aimPool = localStorage.getItem("newPool") || 10;
+let adjustedScore = 0;
 let currentPlayer = "";
 let whistPlayer = "";
 let currentScore = 0;
 let currentScoreString = "";
-let currentWhistScore = "";
-let currentWhistScoreString = "";
-let currentMountainScore = "";
-let currentMountainScoreString = "";
 let playersTricks = 0;
 let currentGame = 0;
 let currentGameCost = 0;
@@ -30,17 +25,12 @@ let raspasCount = 0;
 let scoreRas = 0;
 let mizerGame = false;
 let player1_dealer = true;
+let leavingWithout3 = false;
 let deal_image =
   '<img src="./src/1804142.png" alt="Current dealer" width="30" style="vertical-align: middle;" />';
 
-document.getElementById("player1_Name").innerHTML =
-  (player1_dealer ? deal_image + "  " : "") + player1_Name;
-
-document.getElementById("player2_Name").innerHTML =
-  (!player1_dealer ? deal_image + "  " : "") + player2_Name;
-
-// When the user clicks the button "Start game", open the modal with option to choose the player
-el.openModalBtn.onclick = function () {
+// When the user clicks the button "PLAY", open the modal with option to choose the player
+el.playNewGame.onclick = function () {
   el.modal.style.display = "flex";
   document.getElementById("option1").innerText = player1_Name;
   document.getElementById("option2").innerText = player2_Name;
@@ -115,10 +105,14 @@ el.confirmNewGame.onclick = function () {
   localStorage.clear();
   newPool = document.getElementById("newGamePoolInput").value;
   localStorage.setItem("newPool", newPool);
-  location.reload();
+  player1_Name = document.getElementById("playerName1").value;
+  localStorage.setItem("player1_Name", player1_Name);
+  player2_Name = document.getElementById("playerName2").value;
+  localStorage.setItem("player2_Name", player2_Name);
   document.getElementById("poolText").textContent =
     localStorage.getItem("newPool");
   document.getElementById("newGamePoolInput").value = 10;
+  location.reload();
 };
 
 el.setNewGameFromWinnerModal.onclick = function () {
@@ -182,8 +176,6 @@ function updateMountain(player, score) {
   document.getElementById(`player${player}_Mountain`).textContent =
     newMountainString;
 }
-
-let adjustedScore = 0;
 
 function updatePool(player, score) {
   // Get current pool score for the player
@@ -270,12 +262,18 @@ function updateWhist(player, score) {
 
 // Function to handle results based on the number of tricks
 function handleResultClick(tricks) {
-  playersTricks = tricks;
+  if (tricks == 11) {
+    playersTricks = currentGame - 3;
+    console.log(playersTricks);
+    leavingWithout3 = true;
+  } else {
+    playersTricks = tricks;
+  }
   runResultsCalculation();
 }
 
 // Attach event listeners to all result options
-for (let i = 0; i <= 10; i++) {
+for (let i = 0; i <= 11; i++) {
   document.getElementById(`results-option${i}`).onclick = () =>
     handleResultClick(i);
 }
@@ -283,20 +281,28 @@ for (let i = 0; i <= 10; i++) {
 //// new one
 function runResultsCalculation() {
   function chekPool() {
+    // If player takes all required twicks
     if (playersTricks >= currentGame) {
       updatePool(currentPlayer, currentGameCost);
     }
+    // there is no else option as if layer does not take required twicks he doesn't gett a pool
   }
+
   function checkMountain() {
     if (!raspasCount) {
       if (playersTricks < currentGame) {
-        console.log("Mount should be added");
+        console.log(
+          "Mount should be added for ",
+          currentGame - playersTricks,
+          "tricks"
+        );
         updateMountain(
           currentPlayer,
           currentGameCost * (currentGame - playersTricks)
         );
       }
-    } else {
+    } // options if we play raspasi
+    else {
       if (playersTricks < 10 - playersTricks) {
         scoreRas = (10 - playersTricks - playersTricks) * raspasCount;
         currentPlayer = 2;
@@ -309,13 +315,19 @@ function runResultsCalculation() {
     }
   }
   function checkWhists() {
-    if (playersTricks <= currentGame) {
-      updateWhist(
-        whistPlayer,
-        currentGameCost * (10 - playersTricks + (currentGame - playersTricks))
-      );
-    } else updateWhist(whistPlayer, currentGameCost * (10 - playersTricks));
+    if (!leavingWithout3) {
+      if (playersTricks <= currentGame) {
+        updateWhist(
+          whistPlayer,
+          currentGameCost * (10 - playersTricks + (currentGame - playersTricks))
+        );
+      } else updateWhist(whistPlayer, currentGameCost * (10 - playersTricks));
+    } else {
+      leavingWithout3 = false;
+      return;
+    }
   }
+
   function checkWhistMointain() {
     if (10 - playersTricks < requiredWhist) {
       updateMountain(

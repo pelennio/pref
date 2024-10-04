@@ -49,7 +49,11 @@ body {
   background-color: lightgray; /* Background color for the block */
   border: 2px solid black; /* Border around the block */
   margin: 50px auto; /* Center the block horizontally */
-  transform: translate(-50%);
+  top: 50%; /* Center it vertically */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Adjust both horizontally and vertically */
   left: 50%;
   background-repeat: no-repeat;
   background: url(../src/poker-table.jpg);

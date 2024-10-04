@@ -3,140 +3,80 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-    <title>Poker Site</title>
+    <title>Poker Style Button</title>
     <style>
-      /* Modal background overlay */
-      .modal-overlay {
-        position: fixed;
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #2d2d2d;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .poker-button {
+        /* padding: 20px 40px;
+        font-size: 20px;
+        color: white;
+        background-color: #444;
+        border: 2px solid #fff;
+        border-radius: 50px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.4s ease;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); */
+        padding: 20px 40px;
+        font-size: 20px;
+        color: white;
+        background-color: #444;
+        border: 2px solid #fff;
+        border-radius: 50px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.4s ease;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      }
+
+      .poker-button::before {
+        /* content: "";
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.7); /* Dark transparent overlay */
-        z-index: 1000;
-        display: none; /* Hidden by default */
-        justify-content: center;
-        align-items: center;
-      }
-
-      /* Modal content box */
-      .modal {
-        background-color: #1c1b1b; /* Dark background, like a poker table */
-        border-radius: 12px; /* Smooth, modern rounded corners */
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Subtle shadow for depth */
-        width: 400px; /* Fixed width */
-        padding: 20px;
-        position: relative;
-        z-index: 1001;
-        animation: modalFadeIn 0.3s ease-in-out;
-        color: #f3c13a; /* Gold text to match poker theme */
-      }
-
-      /* Header inside the modal */
-      .modal-header {
-        font-size: 24px;
-        font-weight: bold;
-        color: #ffffff; /* White text for contrast */
-        margin-bottom: 10px;
-        border-bottom: 2px solid #f3c13a; /* Gold border to match the theme */
-        padding-bottom: 10px;
-        text-align: center;
-      }
-
-      /* Modal body/content */
-      .modal-body {
-        color: #d1d1d1; /* Lighter gray for readability */
-        font-size: 16px;
-        line-height: 1.6;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      /* Modal close button */
-      .modal-close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: transparent;
-        border: none;
-        font-size: 20px;
-        color: #ffffff;
-        cursor: pointer;
-        transition: color 0.3s ease;
-      }
-
-      .modal-close:hover {
-        color: #f3c13a; /* Gold on hover */
-      }
-
-      /* Modal footer with buttons */
-      .modal-footer {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 20px;
-      }
-
-      .modal-button {
-        background: linear-gradient(
-          135deg,
-          #4e4b4b,
-          #292828
-        ); /* Dark gradient background */
-        color: #f3c13a; /* Gold text */
-        font-size: 16px;
-        padding: 10px 20px;
-        border: none;
         border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s ease;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.7),
+          0 0 40px rgba(255, 255, 0, 0.4), 0 0 60px rgba(0, 255, 0, 0.6);
+        opacity: 0;
+        transition: opacity 0.4s ease; */
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50px;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.7),
+          0 0 40px rgba(255, 255, 0, 0.4), 0 0 60px rgba(0, 255, 0, 0.6);
+        opacity: 0;
+        transition: opacity 0.4s ease;
       }
 
-      .modal-button:hover {
-        background: linear-gradient(
-          135deg,
-          #6f6c6c,
-          #3b3a3a
-        ); /* Lighter gradient on hover */
-        color: #ffffff; /* White text on hover */
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* Shadow effect */
+      .poker-button:hover::before {
+        opacity: 1;
       }
 
-      /* Modal animation */
-      @keyframes modalFadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-50px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .poker-button:hover {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.9);
+        transform: scale(1.1);
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <header>
-        <h1>Welcome to Poker World</h1>
-      </header>
-
-      <div class="main-content">
-        <h2>Your Next Game Awaits</h2>
-        <p>
-          Get ready to enjoy the thrill of high-stakes poker from the comfort of
-          your home. Join our tables now and test your skills!
-        </p>
-        <button class="button">Play Now</button>
-        <button class="poker-button">Play Now</button>
-      </div>
-    </div>
-
-    <footer>
-      <p>
-        &copy; 2024 Poker World. All rights reserved.
-        <a href="#">Privacy Policy</a>
-      </p>
-    </footer>
+    <button class="poker-button">Play Now</button>
   </body>
 </html>

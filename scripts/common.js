@@ -1,26 +1,12 @@
 import * as getScore from "./getScores.js";
-// Get modal element
-const modal = document.getElementById("choosePlayerModal");
+import * as el from "./components.js";
 
-// Get button that opens the modal
-const openModalBtn = document.getElementById("openModalBtn");
-const gameCost_Modal = document.getElementById("gameCost_Modal");
-const gameResult = document.getElementById("gameResult");
-
-// Get the <span> element that closes the modal
-const closeModal1 = document.getElementById("close1");
-const closeModal2 = document.getElementById("close2");
-const closeModal3 = document.getElementById("close3");
-const closeModal4 = document.getElementById("close4");
-const undoBtn = document.getElementById("undo");
-const resultHeader = document.getElementById("resultModalHeader");
-const resetConfirmation = document.getElementById("resetConfirmation");
-const cancelReset = document.getElementById("cancelReset");
-const aimPool = 10;
-
-// html body div#gameResult.modal div.modal-content h2
+let newPool;
+let aimPool = localStorage.getItem("newPool") || 10;
 
 window.addEventListener("load", function () {
+  document.getElementById("poolText").textContent =
+    localStorage.getItem("newPool") || 10;
   getScore.loadDataFromLocalStorage(); // Load data from localStorage after the page is loaded
   resultsScore(); // add score for each player next to the name
 });
@@ -54,35 +40,40 @@ document.getElementById("player2_Name").innerHTML =
   (!player1_dealer ? deal_image + "  " : "") + player2_Name;
 
 // When the user clicks the button "Start game", open the modal with option to choose the player
-openModalBtn.onclick = function () {
-  modal.style.display = "flex";
+el.openModalBtn.onclick = function () {
+  el.modal.style.display = "flex";
   document.getElementById("option1").innerText = player1_Name;
   document.getElementById("option2").innerText = player2_Name;
 };
 
-undoBtn.onclick = function () {
-  localStorage.clear();
+el.undoBtn.onclick = function () {
   restorePreviousStorage();
   location.reload();
 };
 
+// CLOSE MODALS
 // When the user clicks on <span> (x), close the modal
-closeModal1.onclick = function () {
-  modal.style.display = "none";
+document.querySelectorAll(".close").forEach((span) => {
+  span.addEventListener("click", function () {
+    const modalId = this.getAttribute("data-modal");
+    // Close the modal associated with the clicked 'x'
+    document.getElementById(modalId).style.display = "none";
+  });
+});
+
+el.justCloseIt.onclick = function () {
+  el.winnerCongrats.style.display = "none";
 };
-closeModal2.onclick = function () {
-  gameCost_Modal.style.display = "none";
+
+document.getElementById("cancelNewGame").onclick = function () {
+  el.newGamePool.style.display = "none";
 };
-closeModal3.onclick = function () {
-  gameResult.style.display = "none";
-};
-closeModal4.onclick = function () {
-  resetConfirmation.style.display = "none";
-};
-// When the user clicks anywhere outside of the modal, close it
+
+// Close modal when clicking outside the modal content
 window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
+  // Check if the clicked element has the 'modal' class (i.e., the backdrop)
+  if (event.target.classList.contains("modal")) {
+    event.target.style.display = "none";
   }
 };
 
@@ -91,105 +82,107 @@ function setBulletPoints(contract) {
   raspasCount = 0;
   let whoPlays = ""; // used for the question on UI - who plays
   currentPlayer == 1 ? (whoPlays = player1_Name) : (whoPlays = player2_Name);
-  resultHeader.innerText = `How many twicks did ${whoPlays} take?`;
+  el.resultHeader.innerText = `How many twicks did ${whoPlays} take?`;
   currentGameCost = contract;
-  gameCost_Modal.style.display = "none";
-  gameResult.style.display = "flex";
+  el.gameCost_Modal.style.display = "none";
+  el.gameResult.style.display = "flex";
   console.log("Current game cost: ", currentGameCost);
 }
 
 //When user sets the player -> the options for the current game is shown
 document.getElementById("option1").onclick = function () {
-  gameCost_Modal.style.display = "flex"; // open the modal with game types
-  modal.style.display = "none"; // Close modal after selection
+  el.gameCost_Modal.style.display = "flex"; // open the modal with game types
+  el.modal.style.display = "none"; // Close modal after selection
   currentPlayer = 1;
   whistPlayer = 2;
 };
 
 document.getElementById("localReset").onclick = function () {
-  resetConfirmation.style.display = "flex"; // open the modal with game types
+  el.resetConfirmation.style.display = "flex";
 };
 
 document.getElementById("confirm").onclick = function () {
-  localStorage.clear();
-  location.reload();
-  resetConfirmation.style.display = "none"; // open the modal with game types
+  el.resetConfirmation.style.display = "none"; // close modal confirmation
+  el.newGamePool.style.display = "flex"; // open the modal with new game settings
 };
 
-cancelReset.onclick = function () {
-  resetConfirmation.style.display = "none"; // open the modal with game types
+el.cancelReset.onclick = function () {
+  el.resetConfirmation.style.display = "none"; // open the modal with game types
+};
+
+el.confirmNewGame.onclick = function () {
+  el.newGamePool.style.display = "none";
+  localStorage.clear();
+  newPool = document.getElementById("newGamePoolInput").value;
+  localStorage.setItem("newPool", newPool);
+  location.reload();
+  document.getElementById("poolText").textContent =
+    localStorage.getItem("newPool");
+  document.getElementById("newGamePoolInput").value = 10;
+};
+
+el.setNewGameFromWinnerModal.onclick = function () {
+  el.winnerCongrats.style.display = "none";
+  el.newGamePool.style.display = "flex";
 };
 
 document.getElementById("option2").onclick = function () {
-  gameCost_Modal.style.display = "flex";
-  modal.style.display = "none"; // Close modal after selection
+  el.gameCost_Modal.style.display = "flex";
+  el.modal.style.display = "none"; // Close modal after selection
   currentPlayer = 2;
   whistPlayer = 1;
   raspasCount = 0;
 };
 // Raspasovka option
 document.getElementById("option3").onclick = function () {
-  resultHeader.innerText = `How many twicks did ${player1_Name} take?`;
-  modal.style.display = "none";
-  gameResult.style.display = "flex";
+  el.resultHeader.innerText = `How many twicks did ${player1_Name} take?`;
+  el.modal.style.display = "none";
+  el.gameResult.style.display = "flex";
   currentPlayer = 1;
   raspasCount++;
   console.log(raspasCount);
 };
 
-// Handle game types choice
-// currentGame - required tricks
-document.getElementById("game-option1").onclick = function () {
-  setBulletPoints(2);
-  currentGame = 6;
-  requiredWhist = 4;
-};
-document.getElementById("game-option2").onclick = function () {
-  setBulletPoints(4);
-  currentGame = 7;
-  requiredWhist = 2;
-};
-document.getElementById("game-option3").onclick = function () {
-  setBulletPoints(6);
-  currentGame = 8;
-  requiredWhist = 1;
-};
-document.getElementById("game-option4").onclick = function () {
-  setBulletPoints(8);
-  currentGame = 9;
-  requiredWhist = 0;
-};
-document.getElementById("game-option5").onclick = function () {
-  setBulletPoints(10);
-  currentGame = 10;
-  requiredWhist = 0;
-};
-// mizer
-document.getElementById("game-option6").onclick = function () {
-  setBulletPoints(10);
-  mizerGame = true;
-  console.log("mizerGame", mizerGame);
-  currentGame = 10;
-  requiredWhist = 0;
-};
+function handleGameOption(
+  bulletPoints,
+  gameValue,
+  whistValue,
+  isMizer = false
+) {
+  setBulletPoints(bulletPoints);
+  currentGame = gameValue;
+  requiredWhist = whistValue;
+  if (isMizer) {
+    mizerGame = true;
+  }
+}
+
+// Attach the click event to all game options
+el.gameOption1.onclick = () => handleGameOption(2, 6, 4);
+el.gameOption2.onclick = () => handleGameOption(4, 7, 2);
+el.gameOption3.onclick = () => handleGameOption(6, 8, 1);
+el.gameOption4.onclick = () => handleGameOption(8, 9, 0);
+el.gameOption5.onclick = () => handleGameOption(10, 10, 0);
+el.gameOption6.onclick = () => handleGameOption(10, 10, 0, true);
 
 function updateMountain(player, score) {
-  currentMountainScore = getScore.getCurrentMountainScore(player);
-  currentMountainScoreString = getScore.getCurrentMountainString(player);
-
-  localStorage.setItem(
-    `${player}_Mountain`,
+  const currentMountainScore = getScore.getCurrentMountainScore(player);
+  const currentMountainScoreString = getScore.getCurrentMountainString(player);
+  const newScore = currentMountainScore + Number(score);
+  const newMountainString =
     currentMountainScoreString == null
-      ? Number(score)
-      : currentMountainScoreString + ". " + Number(currentMountainScore + score)
-  );
-  localStorage.setItem(
-    `${player}_Mountain_Total`,
-    currentMountainScore + Number(score)
-  );
+      ? String(score)
+      : `${currentMountainScoreString}. ${newScore}`;
+
+  // Update localStorage with new values
+  localStorage.setItem(`${player}_Mountain`, newMountainString);
+  localStorage.setItem(`${player}_Mountain_Total`, newScore);
+
+  // Update UI with new mountain score
   document.getElementById(`player${player}_Mountain`).textContent =
-    getScore.getCurrentMountainString(player);
+    newMountainString;
 }
+
 let adjustedScore = 0;
 
 function updatePool(player, score) {
@@ -204,7 +197,7 @@ function updatePool(player, score) {
     updatePoolScore(player, adjustedScore);
 
     if (
-      score - adjustedScore <=
+      score - adjustedScore <
       aimPool - getScore.getCurrentPoolScore(whistPlayer)
     ) {
       // Update Whist score and the whistPlayer's pool
@@ -228,9 +221,15 @@ function updatePool(player, score) {
           (aimPool - getScore.getCurrentPoolScore(whistPlayer))
         )
       );
+      /// and that is the end of the game
+      // open window with Congrats
+      getTheWinner();
     }
-  } else {
+  } else if (currentScore + score == aimPool) {
     // If score does not exceed aimPool, simply update the pool score
+    updatePoolScore(player, score);
+    getTheWinner();
+  } else {
     updatePoolScore(player, score);
   }
 
@@ -253,82 +252,36 @@ function updatePool(player, score) {
 }
 
 function updateWhist(player, score) {
-  currentWhistScore = getScore.getCurrentWhistScore(player);
-  currentWhistScoreString = getScore.getCurrentWhistString(player);
-  localStorage.setItem(
-    `${player}_Whist`,
+  const currentWhistScore = getScore.getCurrentWhistScore(player);
+  const currentWhistScoreString = getScore.getCurrentWhistString(player);
+  const newScore = currentWhistScore + Number(score);
+  const newWhistString =
     currentWhistScoreString == null
-      ? Number(score)
-      : currentWhistScoreString + ". " + Number(currentWhistScore + score)
-  );
-  localStorage.setItem(
-    `${player}_Whist_Total`,
-    currentWhistScore + Number(score)
-  );
-  document.getElementById(`player${player}_Whist`).textContent =
-    getScore.getCurrentWhistString(player);
+      ? String(score)
+      : `${currentWhistScoreString}. ${newScore}`;
+
+  // Update localStorage with new values
+  localStorage.setItem(`${player}_Whist`, newWhistString);
+  localStorage.setItem(`${player}_Whist_Total`, newScore);
+
+  // Update UI with new whist score
+  document.getElementById(`player${player}_Whist`).textContent = newWhistString;
 }
 
-//// Handle game results
-document.getElementById("results-option0").onclick = function () {
-  playersTricks = 0;
+// Function to handle results based on the number of tricks
+function handleResultClick(tricks) {
+  playersTricks = tricks;
   runResultsCalculation();
-};
-document.getElementById("results-option1").onclick = function () {
-  playersTricks = 1;
-  runResultsCalculation();
-};
-document.getElementById("results-option2").onclick = function () {
-  playersTricks = 2;
-  runResultsCalculation();
-};
-document.getElementById("results-option3").onclick = function () {
-  playersTricks = 3;
-  runResultsCalculation();
-};
-document.getElementById("results-option4").onclick = function () {
-  playersTricks = 4;
-  runResultsCalculation();
-};
-document.getElementById("results-option5").onclick = function () {
-  playersTricks = 5;
-  runResultsCalculation();
-};
-document.getElementById("results-option6").onclick = function () {
-  playersTricks = 6;
-  runResultsCalculation();
-};
-document.getElementById("results-option7").onclick = function () {
-  playersTricks = 7;
-  runResultsCalculation();
-};
-document.getElementById("results-option8").onclick = function () {
-  playersTricks = 8;
-  runResultsCalculation();
-};
-document.getElementById("results-option9").onclick = function () {
-  playersTricks = 9;
-  runResultsCalculation();
-};
-document.getElementById("results-option10").onclick = function () {
-  playersTricks = 10;
-  runResultsCalculation();
-};
-
-// function for undo last game results
-function storePreviousScores() {
-  for (let i = 0; i < localStorage.length; i++) {
-    let key = localStorage.key(i);
-    previousLocalStorage[key] = localStorage.getItem(key);
-  }
 }
+
+// Attach event listeners to all result options
+for (let i = 0; i <= 10; i++) {
+  document.getElementById(`results-option${i}`).onclick = () =>
+    handleResultClick(i);
+}
+
 //// new one
 function runResultsCalculation() {
-  console.log("playersTricks", playersTricks);
-  console.log("currentGame", currentGame);
-  console.log("currentGameCost", currentGameCost);
-  console.log("current rasspass: ", raspasCount);
-  console.log(currentPlayer);
   function chekPool() {
     if (playersTricks >= currentGame) {
       updatePool(currentPlayer, currentGameCost);
@@ -379,7 +332,7 @@ function runResultsCalculation() {
     } else if (playersTricks == 0) {
       updatePool(currentPlayer, currentGame);
     }
-    gameResult.style.display = "none";
+    el.gameResult.style.display = "none";
     mizerGame = false;
   } else {
     if (!raspasCount) {
@@ -388,20 +341,36 @@ function runResultsCalculation() {
       checkWhistMointain();
     }
     checkMountain();
-    gameResult.style.display = "none";
+    el.gameResult.style.display = "none";
   }
-
-  console.log("previousLocalStorage", previousLocalStorage);
   resultsScore();
 }
-let previousLocalStorage = [];
 
+function storePreviousScores() {
+  // Create a deep copy of localStorage except for 'previousLocalStorage'
+  const currentLocalStorage = { ...localStorage };
+
+  // Remove the previousLocalStorage key from the copy
+  delete currentLocalStorage.previousLocalStorage;
+
+  // Store the remaining data in previousLocalStorage as a JSON string
+  localStorage.setItem(
+    "previousLocalStorage",
+    JSON.stringify(currentLocalStorage)
+  );
+}
 function restorePreviousStorage() {
-  for (let key in previousLocalStorage) {
-    console.log("1:  ", `${key}: ${previousLocalStorage[key]}`);
-    console.log("2:  ", key, previousLocalStorage[key]);
+  const storedPreviousScores = localStorage.getItem("previousLocalStorage");
 
-    localStorage.setItem(key, previousLocalStorage[key]);
+  // Check if there is a previous state stored
+  if (storedPreviousScores) {
+    // Parse the JSON string back to an object
+    const previousLocalStorage = JSON.parse(storedPreviousScores);
+
+    // Restore each key-value pair to localStorage, excluding 'previousLocalStorage'
+    for (let key in previousLocalStorage) {
+      localStorage.setItem(key, previousLocalStorage[key]);
+    }
   }
 }
 
@@ -414,22 +383,7 @@ function resultsScore() {
   let player1_Whist = getScore.getCurrentWhistScore(1);
   let player2_Whist = getScore.getCurrentWhistScore(2);
 
-  console.log(
-    "player1_Mountain",
-    player1_Mountain,
-    "player2_Mountain",
-    player2_Mountain,
-    "player1_Pool",
-    player1_Pool,
-    "player2_Pool",
-    player2_Pool,
-    "player1_Whist",
-    player1_Whist,
-    "player2_Whist",
-    player2_Whist
-  );
-
-  // add Mountain for player with not enough pool
+  // Add Mountain for player with insufficient pool
   if (player1_Pool < aimPool) {
     player1_Mountain = player1_Mountain + (aimPool - player1_Pool) * 2;
     player1_Pool = aimPool;
@@ -438,38 +392,64 @@ function resultsScore() {
     player2_Mountain = player2_Mountain + (aimPool - player2_Pool) * 2;
     player2_Pool = aimPool;
   }
-  // adjust Mountain
+  // Adjust Mountain and Whist scores
   if (player1_Mountain < player2_Mountain) {
-    player2_Mountain = player2_Mountain - player1_Mountain;
-    player1_Whist = player1_Whist + player2_Mountain * 5;
+    player2_Mountain -= player1_Mountain;
+    player1_Whist += player2_Mountain * 5;
     player1_Mountain = 0;
-  } else if (player1_Mountain == player2_Mountain) {
-    player1_Mountain = 0;
-    player2_Mountain = 0;
   } else if (player1_Mountain > player2_Mountain) {
-    player1_Mountain = player1_Mountain - player2_Mountain;
-    player2_Whist = player2_Whist + player1_Mountain * 5;
+    player1_Mountain -= player2_Mountain;
+    player2_Whist += player1_Mountain * 5;
     player2_Mountain = 0;
+  } else {
+    player1_Mountain = player2_Mountain = 0;
   }
 
+  // Normalize Whist scores
   let midWhist = (player1_Whist + player2_Whist) / 2;
-  player1_Whist = player1_Whist - midWhist;
-  player2_Whist = player2_Whist - midWhist;
+  player1_Whist -= midWhist;
+  player2_Whist -= midWhist;
 
+  // Calculate final results for each player
   let resultsPl1 = player1_Whist - player2_Whist;
   let resultsPl2 = player2_Whist - player1_Whist;
-  player1_dealer = !player1_dealer;
-  document.getElementById("player1_Name").innerHTML =
-    (player1_dealer ? deal_image + "  " : "") +
-    player1_Name +
-    " (" +
-    resultsPl1 +
-    ")";
 
-  document.getElementById("player2_Name").innerHTML =
-    (player1_dealer ? "" : deal_image + "  ") +
-    player2_Name +
-    " (" +
-    resultsPl2 +
-    ")";
+  // Toggle dealer and update player names with results
+  player1_dealer = !player1_dealer;
+
+  function updatePlayerName(playerId, name, result, isDealer) {
+    const dealIcon = isDealer ? deal_image + "  " : "";
+    document.getElementById(
+      playerId
+    ).innerHTML = `${dealIcon}${name} (${result})`;
+  }
+
+  // Update the displayed player names and scores
+  updatePlayerName("player1_Name", player1_Name, resultsPl1, player1_dealer);
+  updatePlayerName("player2_Name", player2_Name, resultsPl2, !player1_dealer);
+
+  localStorage.setItem(`1_Score`, resultsPl1);
+  localStorage.setItem(`2_Score`, resultsPl2);
+}
+
+function getTheWinner() {
+  // Show the winner modal with the announcement
+  el.winnerCongrats.style.display = "flex";
+  // Retrieve the scores from localStorage
+  const player1Score = parseInt(localStorage.getItem("1_Score")) || 0;
+  const player2Score = parseInt(localStorage.getItem("2_Score")) || 0;
+
+  // Determine the winner based on the scores
+  let winnerAnnouncement = "";
+  if (player1Score > player2Score) {
+    winnerAnnouncement = `${player1_Name} wins with a score of ${player1Score} against ${player2Score}! 🎉`;
+  } else if (player2Score > player1Score) {
+    winnerAnnouncement = `${player2_Name} wins with a score of ${player2Score} against ${player1Score}! 🎉`;
+  } else {
+    winnerAnnouncement = `It's a draw! Both ${player1_Name} and ${player2_Name} have a score of ${player1Score}. 🤝`;
+  }
+
+  // Display the winner announcement
+  document.getElementById("winnerAnnouncement").textContent =
+    winnerAnnouncement;
 }

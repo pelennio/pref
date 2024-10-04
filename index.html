@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/common.css" />
   </head>
+  
   <body>
     <div class="block">
       
@@ -18,7 +19,7 @@
       <div class="flex-container">
         <!-- Circle on the left -->
         <div class="circle">
-          <span class="circle-text">10</span>
+          <span class="circle-text" id="poolText">10</span>
         </div>
       
         <!-- Buttons on the right -->
@@ -42,47 +43,53 @@
       </div>
 
       
+<div class="container-1">
 
+  <table>
+    <thead>
+      <tr>
+        <th id="player1_Name" style="width: 50%" >Player_1 </th>
+        <th id="player2_Name" style="width: 50%">Player_2</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="player1_Mountain">Mountain</td>
+        <td id="player2_Mountain">Mountain</td>
+      </tr>
+      <tr>
+        <td id="player1_Pool">Pool</td>
+        <td id="player2_Pool">Pool</td>
+      </tr>
+      <tr>
+        <td id="player1_Whist">Whist</td>
+        <td id="player2_Whist">Whist</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- <button class="button">Start</button> -->
+
+    <button id="openModalBtn" class="container poker-button">Start game</button>
+   
+  
+
+</div>
 
       
       
 
-      <table>
-        <thead>
-          <tr>
-            <th id="player1_Name" style="width: 50%" >Player_1 </th>
-            <th id="player2_Name" style="width: 50%">Player_2</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td id="player1_Mountain">Mountain</td>
-            <td id="player2_Mountain">Mountain</td>
-          </tr>
-          <tr>
-            <td id="player1_Pool">Pool</td>
-            <td id="player2_Pool">Pool</td>
-          </tr>
-          <tr>
-            <td id="player1_Whist">Whist</td>
-            <td id="player2_Whist">Whist</td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- <button class="button">Start</button> -->
-      <div>
-        <button id="openModalBtn" class="container poker-button">Start game</button>
-        <br />
-      </div>
+    
        
       </div>
     </div>
 
     <!-- The Modal to choose who will play -->
-    <div id="choosePlayerModal" class="modal">
+    <!-- choosePlayerModal -->
+    <div id="modal1" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
-        <span id="close1" class="close">&times;</span>
+        <span id="close1" class="close" data-modal="modal1">&times;</span>
         <h2>Who will play:</h2>
 
         <div class="modal-options">
@@ -93,10 +100,11 @@
       </div>
     </div>
 
-    <div id="gameCost_Modal" class="modal">
+    <!-- gameCost_Modal -->
+    <div id="modal2" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
-        <span id="close2" class="close">&times;</span>
+        <span id="close2" class="close" data-modal="modal2">&times;</span>
         <h2>What will be played:</h2>
 
         <div class="modal-options">
@@ -110,10 +118,11 @@
       </div>
     </div>
 
-    <div id="gameResult" class="modal">
+    <!-- gameResult -->
+    <div id="modal3" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
-        <span id="close3" class="close">&times;</span>
+        <span id="close3" class="close" data-modal="modal3">&times;</span>
         <h2 id="resultModalHeader">Select game results:</h2>
 
         <div class="modal-options">
@@ -131,18 +140,49 @@
         </div>
       </div>
     </div>
-    <div id="resetConfirmation" class="modal">
+
+    <!-- resetConfirmation -->
+    <div id="modal4" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
-        <span id="close4" class="close">&times;</span>
-        <h2>Are you sure you want to reset the game?:</h2>
-
+        <span id="close4" class="close" data-modal="modal4">&times;</span>
+        <h2>Are you sure you want to reset scores and start a new game?:</h2>
         <div class="modal-options">
           <button id="confirm" class="option-button"  onclick="localStorage.clear(); location.reload()" >Yes</button>
           <button id="cancelReset" class="option-button" >No</button>
-          
         </div></div>
       </div>
+
+      <!-- newGamePool -->
+      <div id="modal5" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span id="close5" class="close" data-modal="modal5">&times;</span>
+          <h2>Set a pool for a new game</h2>
+          <div class="modal-options">
+            <input id="newGamePoolInput" type="number"> 
+            <button id="confirmNewGame" class="option-button" >Yes</button>
+            <button id="cancelNewGame" class="option-button" >Cancel</button>
+          </div></div>
+        </div>
+
+        <!-- winnerCongrats -->
+        <div id="modal6" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span id="close6" class="close" data-modal="modal6">&times;</span>
+            <h2>Congratulations, we know the winner</h2>
+            <div class="modal-options">
+              <p id="winnerAnnouncement" class="modal-option"  style="color: #6b5310;" >Yes</p>
+             
+              <h2>Do you want to start another game?</h2>
+              <button id="setNewGame" class="option-button">Yes</button>
+              <button id="justCloseIt" class="option-button">Not yet</button>
+            </div>
+          </div>
+        </div>
+        
+
     </div>
 
 

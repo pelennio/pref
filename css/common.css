@@ -26,7 +26,11 @@ body {
   justify-content: space-between; /* Align items to opposite sides */
   align-items: center; /* Center items vertically */
   width: 100%; /* Full width of the container */
-  padding: 20px;
+}
+.container-1 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 /* Buttons on the right */
 .button-container {
@@ -206,7 +210,8 @@ button:hover {
   transform: translate(-50%, -50%); */
   background: linear-gradient(45deg, #585555, #9a8d92);
 }
-.poker-button {
+.poker-button,
+input {
   background: linear-gradient(45deg, #2d2b2b, #4a4949);
   color: #ffffff;
   border: 2px solid #d1a441; /* Goldish border for a luxury casino feel */
@@ -219,7 +224,7 @@ button:hover {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-  /* position: relative; */
+
   overflow: hidden;
 }
 

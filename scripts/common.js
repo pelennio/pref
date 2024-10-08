@@ -1,22 +1,10 @@
 import * as getScore from "./getScores.js";
-import * as el from "./components.js";
-
-window.addEventListener("load", function () {
-  document.getElementById("poolText").textContent =
-    localStorage.getItem("newPool") || 10;
-  getScore.loadDataFromLocalStorage(); // Load data from localStorage after the page is loaded
-  resultsScore(); // add score for each player next to the name
-});
+import { el } from "./components.js";
+import gameSet from "./main.js";
 
 let player1_Name = getScore.getPlayerName(1);
 let player2_Name = getScore.getPlayerName(2);
-let newPool;
-let aimPool = localStorage.getItem("newPool") || 10;
-let adjustedScore = 0;
-let currentPlayer = "";
-let whistPlayer = "";
-let currentScore = 0;
-let currentScoreString = "";
+const aimPool = localStorage.getItem("newPool") || 10;
 let playersTricks = 0;
 let currentGame = 0;
 let currentGameCost = 0;
@@ -29,115 +17,8 @@ let leavingWithout3 = false;
 let deal_image =
   '<img src="./src/1804142.png" alt="Current dealer" width="30" style="vertical-align: middle;" />';
 
-// When the user clicks the button "PLAY", open the modal with option to choose the player
-el.playNewGame.onclick = function () {
-  el.modal.style.display = "flex";
-  document.getElementById("option1").innerText = player1_Name;
-  document.getElementById("option2").innerText = player2_Name;
-};
-
-el.undoBtn.onclick = function () {
-  restorePreviousStorage();
-  location.reload();
-};
-
-// CLOSE MODALS
-// When the user clicks on <span> (x), close the modal
-document.querySelectorAll(".close").forEach((span) => {
-  span.addEventListener("click", function () {
-    const modalId = this.getAttribute("data-modal");
-    // Close the modal associated with the clicked 'x'
-    document.getElementById(modalId).style.display = "none";
-  });
-});
-
-el.justCloseIt.onclick = function () {
-  el.winnerCongrats.style.display = "none";
-};
-
-document.getElementById("cancelNewGame").onclick = function () {
-  el.newGamePool.style.display = "none";
-};
-
-// Close modal when clicking outside the modal content
-window.onclick = function (event) {
-  // Check if the clicked element has the 'modal' class (i.e., the backdrop)
-  if (event.target.classList.contains("modal")) {
-    event.target.style.display = "none";
-  }
-};
-
-// Handle option buttons
-function setBulletPoints(contract) {
-  raspasCount = 0;
-  let whoPlays = ""; // used for the question on UI - who plays
-  currentPlayer == 1 ? (whoPlays = player1_Name) : (whoPlays = player2_Name);
-  el.resultHeader.innerText = `How many twicks did ${whoPlays} take?`;
-  currentGameCost = contract;
-  el.gameCost_Modal.style.display = "none";
-  el.gameResult.style.display = "flex";
-  console.log("Current game cost: ", currentGameCost);
-}
-
-//When user sets the player -> the options for the current game is shown
-document.getElementById("option1").onclick = function () {
-  el.gameCost_Modal.style.display = "flex"; // open the modal with game types
-  el.modal.style.display = "none"; // Close modal after selection
-  currentPlayer = 1;
-  whistPlayer = 2;
-};
-
-document.getElementById("localReset").onclick = function () {
-  el.resetConfirmation.style.display = "flex";
-};
-
-document.getElementById("confirm").onclick = function () {
-  el.resetConfirmation.style.display = "none"; // close modal confirmation
-  el.newGamePool.style.display = "flex"; // open the modal with new game settings
-};
-
-el.cancelReset.onclick = function () {
-  el.resetConfirmation.style.display = "none"; // open the modal with game types
-};
-
-el.confirmNewGame.onclick = function () {
-  el.newGamePool.style.display = "none";
-  localStorage.clear();
-  newPool = document.getElementById("newGamePoolInput").value;
-  localStorage.setItem("newPool", newPool);
-  player1_Name = document.getElementById("playerName1").value;
-  localStorage.setItem("player1_Name", player1_Name);
-  player2_Name = document.getElementById("playerName2").value;
-  localStorage.setItem("player2_Name", player2_Name);
-  document.getElementById("poolText").textContent =
-    localStorage.getItem("newPool");
-  document.getElementById("newGamePoolInput").value = 10;
-  location.reload();
-};
-
-el.setNewGameFromWinnerModal.onclick = function () {
-  el.winnerCongrats.style.display = "none";
-  el.newGamePool.style.display = "flex";
-};
-
-document.getElementById("option2").onclick = function () {
-  el.gameCost_Modal.style.display = "flex";
-  el.modal.style.display = "none"; // Close modal after selection
-  currentPlayer = 2;
-  whistPlayer = 1;
-  raspasCount = 0;
-};
-// Raspasovka option
-document.getElementById("option3").onclick = function () {
-  el.resultHeader.innerText = `How many twicks did ${player1_Name} take?`;
-  el.modal.style.display = "none";
-  el.gameResult.style.display = "flex";
-  currentPlayer = 1;
-  raspasCount++;
-  console.log(raspasCount);
-};
-
-function handleGameOption(
+//set game cost and required twicks
+export function handleGameOption(
   bulletPoints,
   gameValue,
   whistValue,
@@ -151,14 +32,7 @@ function handleGameOption(
   }
 }
 
-// Attach the click event to all game options
-el.gameOption1.onclick = () => handleGameOption(2, 6, 4);
-el.gameOption2.onclick = () => handleGameOption(4, 7, 2);
-el.gameOption3.onclick = () => handleGameOption(6, 8, 1);
-el.gameOption4.onclick = () => handleGameOption(8, 9, 0);
-el.gameOption5.onclick = () => handleGameOption(10, 10, 0);
-el.gameOption6.onclick = () => handleGameOption(10, 10, 0, true);
-
+// Updates the mountain score if the player doesn't meet the required tricks.
 function updateMountain(player, score) {
   const currentMountainScore = getScore.getCurrentMountainScore(player);
   const currentMountainScoreString = getScore.getCurrentMountainString(player);
@@ -177,58 +51,49 @@ function updateMountain(player, score) {
     newMountainString;
 }
 
+// Updates the player's pool based on whether they have met their game requirement.
 function updatePool(player, score) {
   // Get current pool score for the player
-  currentScore = getScore.getCurrentPoolScore(player);
-  currentScoreString = getScore.getCurrentPoolString(player);
+  let currentScore = getScore.getCurrentPoolScore(player);
 
+  // Case 1: Score exceeds the aimPool
   if (currentScore + score > aimPool) {
     // When the score exceeds the aimPool limit, adjust to match the aimPool
     //case not covered when there is no mounting to be adjusted
-    adjustedScore = aimPool - currentScore;
+    let adjustedScore = aimPool - currentScore;
     updatePoolScore(player, adjustedScore);
 
-    if (
-      score - adjustedScore <
-      aimPool - getScore.getCurrentPoolScore(whistPlayer)
-    ) {
+    let whistPlayerPoolDeficit =
+      aimPool - getScore.getCurrentPoolScore(gameSet.whistPlayer);
+    let remainingScore = score - adjustedScore;
+
+    if (remainingScore < whistPlayerPoolDeficit) {
       // Update Whist score and the whistPlayer's pool
-      updateWhist(player, (score - adjustedScore) * 10);
-      updatePoolScore(whistPlayer, score - adjustedScore);
+      updateWhist(player, remainingScore * 10);
+      updatePoolScore(gameSet.whistPlayer, remainingScore);
     } else {
       // Update whistPlayer's Whist score and handle overflow to Mountain
-      updateWhist(
-        player,
-        (aimPool - getScore.getCurrentPoolScore(whistPlayer)) * 10
-      );
-      updatePool(
-        whistPlayer,
-        aimPool - getScore.getCurrentPoolScore(whistPlayer)
-      );
-      updateMountain(
-        player,
-        -(
-          score -
-          adjustedScore -
-          (aimPool - getScore.getCurrentPoolScore(whistPlayer))
-        )
-      );
-      /// and that is the end of the game
-      // open window with Congrats
-      getTheWinner();
+      updateWhist(player, whistPlayerPoolDeficit * 10);
+      updatePool(gameSet.whistPlayer, whistPlayerPoolDeficit);
+      updateMountain(player, -(remainingScore - whistPlayerPoolDeficit));
     }
-  } else if (currentScore + score == aimPool) {
+  }
+  // Case 2: Score exactly meets aimPool
+  else if (currentScore + score == aimPool) {
     // If score does not exceed aimPool, simply update the pool score
     updatePoolScore(player, score);
-    getTheWinner();
-  } else {
+    if (getScore.getCurrentPoolScore(gameSet.whistPlayer) == aimPool) {
+    }
+  }
+  // Case 3: Score does not exceed aimPool
+  else {
     updatePoolScore(player, score);
   }
 
   // Helper function to update the player's pool score
   function updatePoolScore(player, score) {
-    currentScore = getScore.getCurrentPoolScore(player);
-    currentScoreString = getScore.getCurrentPoolString(player);
+    let currentScore = getScore.getCurrentPoolScore(player);
+    let currentScoreString = getScore.getCurrentPoolString(player);
     // Store the new pool score in localStorage and update the UI
     localStorage.setItem(
       `${player}_Pool`,
@@ -243,6 +108,7 @@ function updatePool(player, score) {
   }
 }
 
+// Updates the Whist score for the player who met their tricks.
 function updateWhist(player, score) {
   const currentWhistScore = getScore.getCurrentWhistScore(player);
   const currentWhistScoreString = getScore.getCurrentWhistString(player);
@@ -261,7 +127,7 @@ function updateWhist(player, score) {
 }
 
 // Function to handle results based on the number of tricks
-function handleResultClick(tricks) {
+export function handleResultClick(tricks) {
   if (tricks == 11) {
     playersTricks = currentGame - 3;
     console.log(playersTricks);
@@ -272,91 +138,7 @@ function handleResultClick(tricks) {
   runResultsCalculation();
 }
 
-// Attach event listeners to all result options
-for (let i = 0; i <= 11; i++) {
-  document.getElementById(`results-option${i}`).onclick = () =>
-    handleResultClick(i);
-}
-
-//// new one
-function runResultsCalculation() {
-  function chekPool() {
-    // If player takes all required twicks
-    if (playersTricks >= currentGame) {
-      updatePool(currentPlayer, currentGameCost);
-    }
-    // there is no else option as if layer does not take required twicks he doesn't gett a pool
-  }
-
-  function checkMountain() {
-    if (!raspasCount) {
-      if (playersTricks < currentGame) {
-        console.log(
-          "Mount should be added for ",
-          currentGame - playersTricks,
-          "tricks"
-        );
-        updateMountain(
-          currentPlayer,
-          currentGameCost * (currentGame - playersTricks)
-        );
-      }
-    } // options if we play raspasi
-    else {
-      if (playersTricks < 10 - playersTricks) {
-        scoreRas = (10 - playersTricks - playersTricks) * raspasCount;
-        currentPlayer = 2;
-      } else if (playersTricks > 10 - playersTricks) {
-        scoreRas = (playersTricks - (10 - playersTricks)) * raspasCount;
-      } else if (playersTricks == 10 - playersTricks) {
-        scoreRas = 0;
-      }
-      updateMountain(currentPlayer, scoreRas);
-    }
-  }
-  function checkWhists() {
-    if (!leavingWithout3) {
-      if (playersTricks <= currentGame) {
-        updateWhist(
-          whistPlayer,
-          currentGameCost * (10 - playersTricks + (currentGame - playersTricks))
-        );
-      } else updateWhist(whistPlayer, currentGameCost * (10 - playersTricks));
-    } else {
-      leavingWithout3 = false;
-      return;
-    }
-  }
-
-  function checkWhistMointain() {
-    if (10 - playersTricks < requiredWhist) {
-      updateMountain(
-        whistPlayer,
-        currentGameCost * (requiredWhist - (10 - playersTricks))
-      );
-    }
-  }
-  storePreviousScores();
-  if (mizerGame) {
-    if (playersTricks > 0) {
-      scoreRas = playersTricks * currentGame;
-      updateMountain(currentPlayer, scoreRas);
-    } else if (playersTricks == 0) {
-      updatePool(currentPlayer, currentGame);
-    }
-    el.gameResult.style.display = "none";
-    mizerGame = false;
-  } else {
-    if (!raspasCount) {
-      chekPool();
-      checkWhists();
-      checkWhistMointain();
-    }
-    checkMountain();
-    el.gameResult.style.display = "none";
-  }
-  resultsScore();
-}
+// new one
 
 function storePreviousScores() {
   // Create a deep copy of localStorage except for 'previousLocalStorage'
@@ -371,7 +153,7 @@ function storePreviousScores() {
     JSON.stringify(currentLocalStorage)
   );
 }
-function restorePreviousStorage() {
+export function restorePreviousStorage() {
   const storedPreviousScores = localStorage.getItem("previousLocalStorage");
 
   // Check if there is a previous state stored
@@ -385,8 +167,63 @@ function restorePreviousStorage() {
     }
   }
 }
+// Determine and announce the winner at the end of the game.
+function checkTheWinner() {
+  const player1Score = parseInt(localStorage.getItem("1_Pool_Total")) || 0;
+  const player2Score = parseInt(localStorage.getItem("2_Pool_Total")) || 0;
+  if (player1Score == aimPool && player2Score == aimPool) {
+    getTheWinner();
+  }
+}
 
-function resultsScore() {
+function getTheWinner() {
+  // Retrieve the scores from localStorage
+  const player1Score = parseInt(localStorage.getItem("1_Score")) || 0;
+  const player2Score = parseInt(localStorage.getItem("2_Score")) || 0;
+
+  // Determine the winner based on the scores
+  let winnerAnnouncement = "";
+  if (player1Score > player2Score) {
+    winnerAnnouncement = `${player1_Name} wins with a score of ${player1Score} against ${player2Score}! 🎉`;
+  } else if (player2Score > player1Score) {
+    winnerAnnouncement = `${player2_Name} wins with a score of ${player2Score} against ${player1Score}! 🎉`;
+  } else {
+    winnerAnnouncement = `It's a draw! Both ${player1_Name} and ${player2_Name} have a score of ${player1Score}. 🤝`;
+  }
+  storeTheWinner(winnerAnnouncement);
+
+  // Display the winner announcement
+  document.getElementById("winnerAnnouncement").textContent =
+    winnerAnnouncement;
+  // Show the winner modal with the announcement
+  el.winnerCongrats_modal.style.display = "flex";
+}
+
+function storeTheWinner(winnerAnnouncement) {
+  // Get the current date
+  const currentDate = new Date().toLocaleDateString();
+
+  // Create a new entry with message and date
+  const winnerData = {
+    message: winnerAnnouncement,
+    date: currentDate,
+  };
+
+  // Retrieve existing data
+  let storedAnnouncements =
+    JSON.parse(localStorage.getItem("winnerAnnouncement")) || [];
+  // Add the new entry to the existing data
+  storedAnnouncements.push(winnerData);
+
+  // store updated array
+  localStorage.setItem(
+    "winnerAnnouncement",
+    JSON.stringify(storedAnnouncements)
+  );
+}
+
+// count current scores
+export function resultsScore() {
   // read all current data from local storage and save them as variables
   let player1_Mountain = getScore.getCurrentMountainScore(1);
   let player2_Mountain = getScore.getCurrentMountainScore(2);
@@ -444,24 +281,106 @@ function resultsScore() {
   localStorage.setItem(`2_Score`, resultsPl2);
 }
 
-function getTheWinner() {
-  // Show the winner modal with the announcement
-  el.winnerCongrats.style.display = "flex";
-  // Retrieve the scores from localStorage
-  const player1Score = parseInt(localStorage.getItem("1_Score")) || 0;
-  const player2Score = parseInt(localStorage.getItem("2_Score")) || 0;
+// Handle option buttons
+function setBulletPoints(contract) {
+  gameSet.raspasCount = 0;
+  let whoPlays = ""; // used for the question on UI - who plays
+  // Determine the current player
+  whoPlays = gameSet.currentPlayer === 1 ? player1_Name : player2_Name;
+  el.resultHeader.innerText = `How many twicks did ${whoPlays} take?`;
+  currentGameCost = contract;
+  el.gameCost_modal.style.display = "none";
+  el.gameResult_modal.style.display = "flex";
+  console.log("Current game cost: ", currentGameCost);
+}
 
-  // Determine the winner based on the scores
-  let winnerAnnouncement = "";
-  if (player1Score > player2Score) {
-    winnerAnnouncement = `${player1_Name} wins with a score of ${player1Score} against ${player2Score}! 🎉`;
-  } else if (player2Score > player1Score) {
-    winnerAnnouncement = `${player2_Name} wins with a score of ${player2Score} against ${player1Score}! 🎉`;
-  } else {
-    winnerAnnouncement = `It's a draw! Both ${player1_Name} and ${player2_Name} have a score of ${player1Score}. 🤝`;
+// Central function to handle the scoring logic after a round of tricks has been played.
+function runResultsCalculation() {
+  const remainingTricks = 10 - playersTricks;
+
+  function checkPool() {
+    // If player wins the required number of tricks, update the pool
+    if (playersTricks >= currentGame) {
+      updatePool(gameSet.currentPlayer, currentGameCost);
+    }
+    // there is no else option as if player does not take required twicks he doesn't gett a pool
   }
 
-  // Display the winner announcement
-  document.getElementById("winnerAnnouncement").textContent =
-    winnerAnnouncement;
+  function checkMountain() {
+    if (!raspasCount) {
+      if (playersTricks < currentGame) {
+        // Player didn't win enough tricks, so they get mountain points
+        console.log(
+          "Mount should be added for ",
+          currentGame - playersTricks,
+          "tricks"
+        );
+        updateMountain(
+          gameSet.currentPlayer,
+          currentGameCost * (currentGame - playersTricks)
+        );
+      }
+    } // options if we play raspasi
+    else {
+      // Raspas logic: adjusting mountain points based on players' tricks
+      if (playersTricks < remainingTricks) {
+        scoreRas = (remainingTricks - playersTricks) * raspasCount;
+        gameSet.currentPlayer = 2;
+      } else if (playersTricks > remainingTricks) {
+        scoreRas = (playersTricks - remainingTricks) * raspasCount;
+      } else if (playersTricks == remainingTricks) {
+        scoreRas = 0;
+      }
+      updateMountain(gameSet.currentPlayer, scoreRas);
+    }
+  }
+  function checkWhists() {
+    if (!leavingWithout3) {
+      if (playersTricks <= currentGame) {
+        updateWhist(
+          gameSet.whistPlayer,
+          currentGameCost * (remainingTricks + (currentGame - playersTricks))
+        );
+      } else
+        updateWhist(
+          gameSet.whistPlayer,
+          currentGameCost * (10 - playersTricks)
+        );
+    } else {
+      leavingWithout3 = false;
+      return;
+    }
+  }
+
+  function checkWhistMointain() {
+    if (remainingTricks < requiredWhist) {
+      updateMountain(
+        gameSet.whistPlayer,
+        currentGameCost * (requiredWhist - remainingTricks)
+      );
+    }
+  }
+
+  storePreviousScores();
+
+  if (mizerGame) {
+    if (playersTricks > 0) {
+      scoreRas = playersTricks * currentGame;
+      updateMountain(gameSet.currentPlayer, scoreRas);
+    } else if (playersTricks == 0) {
+      updatePool(gameSet.currentPlayer, currentGame);
+    }
+    el.gameResult_modal.style.display = "none";
+    mizerGame = false;
+  } else {
+    if (!raspasCount) {
+      checkPool();
+      checkWhists();
+      checkWhistMointain();
+    }
+    checkMountain();
+    el.gameResult_modal.style.display = "none";
+  }
+  resultsScore();
+  checkTheWinner();
 }

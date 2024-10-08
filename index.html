@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pref score for 2</title>
-  <script type="module" src="scripts/common.js" type="text/javascript" defer></script>
+  <script type="module" src="scripts/main.js" type="text/javascript" defer></script>
   <link rel="shortcut icon" href="#" />
 
   <link rel="stylesheet" type="text/css" href="css/common.css" />
@@ -160,7 +160,7 @@
       <div class="modal-options">
         <div class="row">
           <button id="confirm" class="option-button" onclick="localStorage.clear(); location.reload()">Yes</button>
-          <button id="cancelReset" class="option-button">No</button>
+          <button id="cancelReset" class="option-button cancel" data-modal="modal4">No</button>
         </div>
       </div>
     </div>
@@ -182,7 +182,7 @@
         </div>
         <div class="row">
           <button id="confirmNewGame" class="option-button">Yes</button>
-          <button id="cancelNewGame" class="option-button">Cancel</button>
+          <button id="cancelNewGame" class="option-button cancel" data-modal="modal5">Cancel</button>
         </div>
       </div>
 
@@ -201,7 +201,7 @@
         <h2>Do you want to start another game?</h2>
         <div class="row">
           <button id="setNewGame" class="option-button">Yes</button>
-          <button id="justCloseIt" class="option-button">Not yet</button>
+          <button id="justCloseIt" class="option-button cancel" data-modal="modal6">Not yet</button>
         </div>
       </div>
     </div>

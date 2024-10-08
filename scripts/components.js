@@ -1,50 +1,32 @@
-export {
-  playNewGame,
-  modal,
-  gameCost_Modal,
-  gameResult,
-  resetConfirmation,
-  newGamePool,
-  winnerCongrats,
-  undoBtn,
-  resultHeader,
-  cancelReset,
-  confirmNewGame,
-  newGamePool_input,
-  setNewGameFromWinnerModal,
-  justCloseIt,
-  gameOption1,
-  gameOption2,
-  gameOption3,
-  gameOption4,
-  gameOption5,
-  gameOption6,
+export const el = {
+  // Get button that opens the modal "Start game" - modal1
+  playNewGame: document.getElementById("playNewGame"),
+
+  // Get modal element
+  whoPlays_modal: document.getElementById("modal1"),
+  gameCost_modal: document.getElementById("modal2"),
+  gameResult_modal: document.getElementById("modal3"),
+  resetConfirmation_modal: document.getElementById("modal4"),
+  newGamePool_modal: document.getElementById("modal5"),
+  winnerCongrats_modal: document.getElementById("modal6"),
+
+  undoBtn: document.getElementById("undo"),
+  resultHeader: document.getElementById("resultModalHeader"),
+  cancelReset: document.getElementById("cancelReset"),
+  confirmNewGame: document.getElementById("confirmNewGame"),
+  newGamePool_input: document.getElementById("newGamePool_input"),
+  setNewGameFromWinnerModal: document.getElementById("setNewGame"),
+  justCloseIt: document.getElementById("justCloseIt"),
+
+  //Game options buttons
+  gameOption1: document.getElementById("game-option1"),
+  gameOption2: document.getElementById("game-option2"),
+  gameOption3: document.getElementById("game-option3"),
+  gameOption4: document.getElementById("game-option4"),
+  gameOption5: document.getElementById("game-option5"),
+  gameOption6: document.getElementById("game-option6"),
+
+  //Players name
+  player1_name_option: document.getElementById("option1"),
+  player2_name_option: document.getElementById("option2"),
 };
-
-// Get button that opens the modal "Start game" - modal1
-const playNewGame = document.getElementById("playNewGame");
-
-// Get modal element
-const modal = document.getElementById("modal1");
-const gameCost_Modal = document.getElementById("modal2");
-const gameResult = document.getElementById("modal3");
-const resetConfirmation = document.getElementById("modal4");
-const newGamePool = document.getElementById("modal5");
-const winnerCongrats = document.getElementById("modal6");
-
-const undoBtn = document.getElementById("undo");
-const resultHeader = document.getElementById("resultModalHeader");
-const cancelReset = document.getElementById("cancelReset");
-const confirmNewGame = document.getElementById("confirmNewGame");
-const newGamePool_input = document.getElementById("newGamePool_input");
-const setNewGameFromWinnerModal = document.getElementById("setNewGame");
-const justCloseIt = document.getElementById("justCloseIt");
-
-//Game options buttons
-
-const gameOption1 = document.getElementById("game-option1");
-const gameOption2 = document.getElementById("game-option2");
-const gameOption3 = document.getElementById("game-option3");
-const gameOption4 = document.getElementById("game-option4");
-const gameOption5 = document.getElementById("game-option5");
-const gameOption6 = document.getElementById("game-option6");

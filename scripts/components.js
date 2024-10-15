@@ -9,6 +9,8 @@ export const el = {
   resetConfirmation_modal: document.getElementById("modal4"),
   newGamePool_modal: document.getElementById("modal5"),
   winnerCongrats_modal: document.getElementById("modal6"),
+  playerCount_modal: document.getElementById("modal7"),
+  whoWillWist_modal: document.getElementById("modal8"),
 
   undoBtn: document.getElementById("undo"),
   resultHeader: document.getElementById("resultModalHeader"),
@@ -29,4 +31,6 @@ export const el = {
   //Players name
   player1_name_option: document.getElementById("option1"),
   player2_name_option: document.getElementById("option2"),
+  player3_name_option: document.getElementById("option3"),
+  player4_name_option: document.getElementById("option4"),
 };

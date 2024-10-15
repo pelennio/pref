@@ -1,82 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Poker Style Button</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #2d2d2d;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-
-      .poker-button {
-        /* padding: 20px 40px;
-        font-size: 20px;
-        color: white;
-        background-color: #444;
-        border: 2px solid #fff;
-        border-radius: 50px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        cursor: pointer;
-        position: relative;
-        transition: all 0.4s ease;
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); */
-        padding: 20px 40px;
-        font-size: 20px;
-        color: white;
-        background-color: #444;
-        border: 2px solid #fff;
-        border-radius: 50px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        cursor: pointer;
-        position: relative;
-        transition: all 0.4s ease;
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-      }
-
-      .poker-button::before {
-        /* content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 50px;
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.7),
-          0 0 40px rgba(255, 255, 0, 0.4), 0 0 60px rgba(0, 255, 0, 0.6);
-        opacity: 0;
-        transition: opacity 0.4s ease; */
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 50px;
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.7),
-          0 0 40px rgba(255, 255, 0, 0.4), 0 0 60px rgba(0, 255, 0, 0.6);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-      }
-
-      .poker-button:hover::before {
-        opacity: 1;
-      }
-
-      .poker-button:hover {
-        box-shadow: 0 0 30px rgba(255, 255, 255, 0.9);
-        transform: scale(1.1);
-      }
-    </style>
-  </head>
-  <body>
-    <button class="poker-button">Play Now</button>
-  </body>
-</html>
+// script.js document.addEventListener("DOMContentLoaded", function () { const
+openModalBtn = document.getElementById("openModalBtn"); const modal =
+document.getElementById("dynamicModal"); const closeModal =
+document.querySelector(".close"); const inputFieldsContainer =
+document.getElementById("inputFieldsContainer"); const submitBtn =
+document.getElementById("submitBtn"); // Variable value to determine number of
+input fields let numberOfInputs = 5; // You can change this value dynamically //
+Function to create input fields based on variable value function
+createInputFields(count) { inputFieldsContainer.innerHTML = ""; // Clear
+previous fields for (let i = 0; i < count; i++) { const input =
+document.createElement("input"); input.type = "text"; input.placeholder = `Input
+${i + 1}`; input.className = "input-field";
+inputFieldsContainer.appendChild(input); } } // Open modal and create input
+fields openModalBtn.onclick = function () { createInputFields(numberOfInputs);
+modal.style.display = "block"; } // Close modal when the user clicks on
+<span>
+  (x) closeModal.onclick = function () { modal.style.display = "none"; } //
+  Close modal when clicking outside of the modal content window.onclick =
+  function (event) { if (event.target === modal) { modal.style.display = "none";
+  } } // Handle the submit button click submitBtn.onclick = function () { const
+  inputs = document.querySelectorAll(".input-field"); inputs.forEach((input,
+  index) => { console.log(`Input ${index + 1}: ${input.value}`); });
+  modal.style.display = "none"; // Close modal after submission } });
+</span>

@@ -41,5 +41,6 @@ export function getCurrentWhistString(player) {
   return localStorage.getItem(`${player}_Whist`);
 }
 export function getPlayerName(player) {
+  // Try to get the player's name from localStorage. If not found, return a default name like "player_X"
   return localStorage.getItem(`player${player}_Name`) || `player_${player}`;
 }

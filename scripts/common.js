@@ -1,12 +1,14 @@
 import * as getScore from "./getScores.js";
 import { el } from "./components.js";
-import gameSet from "./main.js";
+import gameSet, { createWistFields } from "./main.js";
 
 let player1_Name = getScore.getPlayerName(1);
 let player2_Name = getScore.getPlayerName(2);
+let player3_Name = getScore.getPlayerName(3);
+let player4_Name = getScore.getPlayerName(4);
 const aimPool = localStorage.getItem("newPool") || 10;
-let playersTricks = 0;
-let currentGame = 0;
+// let playersTricks = 0;
+// let currentGame = 0;
 let currentGameCost = 0;
 let requiredWhist = 0;
 let raspasCount = 0;
@@ -25,7 +27,7 @@ export function handleGameOption(
   isMizer = false
 ) {
   setBulletPoints(bulletPoints);
-  currentGame = gameValue;
+  gameSet.currentGame = gameValue;
   requiredWhist = whistValue;
   if (isMizer) {
     mizerGame = true;
@@ -129,11 +131,11 @@ function updateWhist(player, score) {
 // Function to handle results based on the number of tricks
 export function handleResultClick(tricks) {
   if (tricks == 11) {
-    playersTricks = currentGame - 3;
-    console.log(playersTricks);
+    gameSet.playersTricks = gameSet.currentGame - 3;
+    console.log(gameSet.playersTricks);
     leavingWithout3 = true;
   } else {
-    playersTricks = tricks;
+    gameSet.playersTricks = 10 - tricks;
   }
   runResultsCalculation();
 }
@@ -166,6 +168,7 @@ export function restorePreviousStorage() {
       localStorage.setItem(key, previousLocalStorage[key]);
     }
   }
+  player1_dealer = !player1_dealer;
 }
 // Determine and announce the winner at the end of the game.
 function checkTheWinner() {
@@ -290,17 +293,21 @@ function setBulletPoints(contract) {
   el.resultHeader.innerText = `How many twicks did ${whoPlays} take?`;
   currentGameCost = contract;
   el.gameCost_modal.style.display = "none";
-  el.gameResult_modal.style.display = "flex";
+
+  el.whoWillWist_modal.style.display = "flex";
+  const playerCount = localStorage.getItem("playerCount");
+  createWistFields(playerCount);
+  // el.gameResult_modal.style.display = "flex";
   console.log("Current game cost: ", currentGameCost);
 }
 
 // Central function to handle the scoring logic after a round of tricks has been played.
-function runResultsCalculation() {
-  const remainingTricks = 10 - playersTricks;
+export function runResultsCalculation() {
+  const remainingTricks = 10 - gameSet.playersTricks;
 
   function checkPool() {
     // If player wins the required number of tricks, update the pool
-    if (playersTricks >= currentGame) {
+    if (gameSet.playersTricks >= gameSet.currentGame) {
       updatePool(gameSet.currentPlayer, currentGameCost);
     }
     // there is no else option as if player does not take required twicks he doesn't gett a pool
@@ -308,46 +315,50 @@ function runResultsCalculation() {
 
   function checkMountain() {
     if (!raspasCount) {
-      if (playersTricks < currentGame) {
+      if (gameSet.playersTricks < gameSet.currentGame) {
         // Player didn't win enough tricks, so they get mountain points
         console.log(
           "Mount should be added for ",
-          currentGame - playersTricks,
+          gameSet.currentGame - gameSet.playersTricks,
           "tricks"
         );
         updateMountain(
           gameSet.currentPlayer,
-          currentGameCost * (currentGame - playersTricks)
+          currentGameCost * (gameSet.currentGame - gameSet.playersTricks)
         );
       }
     } // options if we play raspasi
     else {
       // Raspas logic: adjusting mountain points based on players' tricks
-      if (playersTricks < remainingTricks) {
-        scoreRas = (remainingTricks - playersTricks) * raspasCount;
+      if (gameSet.playersTricks < remainingTricks) {
+        scoreRas = (remainingTricks - gameSet.playersTricks) * raspasCount;
         gameSet.currentPlayer = 2;
-      } else if (playersTricks > remainingTricks) {
-        scoreRas = (playersTricks - remainingTricks) * raspasCount;
-      } else if (playersTricks == remainingTricks) {
+      } else if (gameSet.playersTricks > remainingTricks) {
+        scoreRas = (gameSet.playersTricks - remainingTricks) * raspasCount;
+      } else if (gameSet.playersTricks == remainingTricks) {
         scoreRas = 0;
       }
       updateMountain(gameSet.currentPlayer, scoreRas);
     }
   }
   function checkWhists() {
-    if (!leavingWithout3) {
-      if (playersTricks <= currentGame) {
+    if (!leavingWithout3 && !gameSet.noWist) {
+      if (gameSet.playersTricks <= gameSet.currentGame) {
         updateWhist(
           gameSet.whistPlayer,
-          currentGameCost * (remainingTricks + (currentGame - playersTricks))
+          currentGameCost *
+            (remainingTricks + (gameSet.currentGame - gameSet.playersTricks))
         );
       } else
         updateWhist(
           gameSet.whistPlayer,
-          currentGameCost * (10 - playersTricks)
+          currentGameCost * (10 - gameSet.playersTricks)
         );
-    } else {
+    } else if (leavingWithout3) {
       leavingWithout3 = false;
+      return;
+    } else if (gameSet.noWist) {
+      gameSet.noWist = false;
       return;
     }
   }
@@ -364,11 +375,11 @@ function runResultsCalculation() {
   storePreviousScores();
 
   if (mizerGame) {
-    if (playersTricks > 0) {
-      scoreRas = playersTricks * currentGame;
+    if (gameSet.playersTricks > 0) {
+      scoreRas = gameSet.playersTricks * gameSet.currentGame;
       updateMountain(gameSet.currentPlayer, scoreRas);
-    } else if (playersTricks == 0) {
-      updatePool(gameSet.currentPlayer, currentGame);
+    } else if (gameSet.playersTricks == 0) {
+      updatePool(gameSet.currentPlayer, gameSet.currentGame);
     }
     el.gameResult_modal.style.display = "none";
     mizerGame = false;

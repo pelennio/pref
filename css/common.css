@@ -175,6 +175,7 @@ th {
 }
 .row {
   display: flex;
+  flex-wrap: wrap; /* Allow items to wrap */
   justify-content: space-between;
   width: 100%;
 }

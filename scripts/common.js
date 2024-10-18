@@ -303,7 +303,7 @@ function setBulletPoints(contract) {
 
 // Central function to handle the scoring logic after a round of tricks has been played.
 export function runResultsCalculation() {
-  const remainingTricks = 10 - gameSet.playersTricks;
+  let remainingTricks = 10 - gameSet.playersTricks;
 
   function checkPool() {
     // If player wins the required number of tricks, update the pool
@@ -314,7 +314,7 @@ export function runResultsCalculation() {
   }
 
   function checkMountain() {
-    if (!raspasCount) {
+    if (!gameSet.raspasCount) {
       if (gameSet.playersTricks < gameSet.currentGame) {
         // Player didn't win enough tricks, so they get mountain points
         console.log(
@@ -329,12 +329,19 @@ export function runResultsCalculation() {
       }
     } // options if we play raspasi
     else {
+      gameSet.currentPlayer = 1;
+      let remainingTricks1 = gameSet.playersTricks,
+        playersTricks1 = remainingTricks;
+      remainingTricks = remainingTricks1;
+      gameSet.playersTricks = playersTricks1;
       // Raspas logic: adjusting mountain points based on players' tricks
       if (gameSet.playersTricks < remainingTricks) {
-        scoreRas = (remainingTricks - gameSet.playersTricks) * raspasCount;
+        scoreRas =
+          (remainingTricks - gameSet.playersTricks) * gameSet.raspasCount;
         gameSet.currentPlayer = 2;
       } else if (gameSet.playersTricks > remainingTricks) {
-        scoreRas = (gameSet.playersTricks - remainingTricks) * raspasCount;
+        scoreRas =
+          (gameSet.playersTricks - remainingTricks) * gameSet.raspasCount;
       } else if (gameSet.playersTricks == remainingTricks) {
         scoreRas = 0;
       }
@@ -384,7 +391,7 @@ export function runResultsCalculation() {
     el.gameResult_modal.style.display = "none";
     mizerGame = false;
   } else {
-    if (!raspasCount) {
+    if (!gameSet.raspasCount) {
       checkPool();
       checkWhists();
       checkWhistMointain();

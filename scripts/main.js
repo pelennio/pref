@@ -11,6 +11,7 @@ let gameSet = {
   currentGame: 0,
   playersTricks: 0,
   noWist: false,
+  player1_Name: "",
 };
 export default gameSet;
 
@@ -25,6 +26,7 @@ window.addEventListener("load", function () {
 // When the user clicks the button "PLAY", open the modal with option to choose the player
 el.playNewGame.onclick = () => {
   el.player1_name_option.innerText = getScore.getPlayerName(1) || "player1";
+  gameSet.player1_Name = getScore.getPlayerName(1) || "player1";
   el.player2_name_option.innerText = getScore.getPlayerName(2) || "player2";
   // el.player3_name_option.innerText = getScore.getPlayerName(3) || "player3";
   // el.player4_name_option.innerText = getScore.getPlayerName(4) || "player4";
@@ -142,7 +144,7 @@ document.getElementById("option2").onclick = function () {
 };
 // Raspasovka option
 document.getElementById("option3").onclick = function () {
-  el.resultHeader.innerText = `How many twicks did ${player1_Name} take?`;
+  el.resultHeader.innerText = `How many twicks did ${gameSet.player1_Name} take?`;
   el.whoPlays_modal.style.display = "none";
   el.gameResult_modal.style.display = "flex";
   gameSet.currentPlayer = 1;

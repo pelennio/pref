@@ -1,0 +1,34 @@
+<div id="newGamePool">
+  <h2>Set a pool for a new game</h2>
+  <div class="modal-options">
+    <div class="row">
+      <input
+        id="newGamePoolInput"
+        type="number"
+        placeholder="Enter pool value"
+      />
+    </div>
+    <div class="row">
+      <input id="playerName1" type="text" placeholder="Enter Player 1 Name" />
+      <input id="playerName2" type="text" placeholder="Enter Player 2 Name" />
+    </div>
+    <div id="inputFieldsContainer" class="row"></div>
+    <div class="row">
+      <button
+        id="confirmNewGame"
+        class="option-button"
+        onclick="closeModal(); setUpNewGame()"
+      >
+        Yes
+      </button>
+      <button
+        id="cancelNewGame"
+        class="option-button cancel"
+        data-modal="modal5"
+        onclick="closeModal();"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

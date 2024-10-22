@@ -1,0 +1,23 @@
+<div id="resetConfirmation_modal">
+  <h2>Are you sure you want to start a new game?</h2>
+  <div class="modal-options">
+    <div class="row">
+      <button
+        id="confirm"
+        class="option-button"
+        onclick="closeModal(); 
+        loadModal('pages/playerCount_modal.html'); "
+      >
+        Yes
+      </button>
+      <button
+        id="cancelReset"
+        class="option-button cancel"
+        data-modal="modal4"
+        onclick="closeModal(); "
+      >
+        No
+      </button>
+    </div>
+  </div>
+</div>

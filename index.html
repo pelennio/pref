@@ -4,22 +4,24 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="preload" href="css/common.css" as="style" onload="this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="css/common.css"></noscript>
+  <noscript>
+    <link rel="stylesheet" href="css/common.css">
+  </noscript>
 
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pref score for 2</title>
   <script type="module" src="scripts/main.js" type="text/javascript" defer></script>
+  <script type="module" src="scripts/helpers.js" type="text/javascript" defer></script>
+  <script type="module" src="scripts/newGameSetUp.js" type="text/javascript" defer></script>
+  <script type="module" src="scripts/newLap.js" type="text/javascript" defer></script>
+  <!-- <script type="module" src="scripts/getScores.js" type="text/javascript" defer></script> -->
   <link rel="shortcut icon" href="#" />
 
 </head>
 
 <body>
   <div class="block">
-
-
-
-
     <div class="flex-container">
       <!-- Circle on the left -->
       <div class="circle">
@@ -28,19 +30,17 @@
 
       <!-- Buttons on the right -->
       <div class="button-container">
-        <button id="localReset" class="reset poker-button">
+        <button id="localReset" class="reset poker-button"  onclick="loadModal('pages/resetConfirmation_modal.html')">
           Start new game
         </button> </br>
 
-        <button id="undo" class="reset poker-button">
+        <button id="undo" class="reset poker-button" onclick="restorePreviousStorage(); ">
           Undo
         </button>
       </div>
     </div>
 
-
     <div class="container-1">
-
       <table>
         <thead>
           <tr>
@@ -65,184 +65,24 @@
       </table>
 
       <!-- <button class="button">Start</button> -->
-
-      <button id="playNewGame" class="container poker-button">Play</button>
-    </div>
-
-
-
-
-
-
+      <button id="playNewGame" class="container poker-button"
+      onclick="loadModal('./pages/newGameModal.html').then(setPlayersNames)">Play</button>    </div>
   </div>
   </div>
 
-  <!-- The Modal to choose who will play -->
-  <!-- choosePlayerModal -->
-  <div id="modal1" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span id="close1" class="close" data-modal="modal1">&times;</span>
-      <h2>Who will play:</h2>
+  
 
-      <div class="modal-options">
-        <div class="row">
+  
 
-          <button id="option1" class="option-button">Player1_Name</button>
-          <button id="option2" class="option-button">Player2_Name</button>
-        </div>
-        <div class="row">
 
-          <button id="option3" class="option-button">Raspasovka</button>
-        </div>
-      </div>
+  <!-- Modal container where content is dynamically inserted -->
+  
+<div id="modalContainerMain" class="modal">
+    <div class="modal-content" id="modalContentMain">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <!-- Modal content will be loaded here -->
     </div>
   </div>
-
-  <!-- gameCost_Modal -->
-  <div id="modal2" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span id="close2" class="close" data-modal="modal2">&times;</span>
-      <h2>What will be played:</h2>
-      <div class="modal-options">
-        <div class="row">
-          <button id="game-option1" class="option-button">6</button>
-          <button id="game-option2" class="option-button">7</button>
-          <button id="game-option3" class="option-button">8</button>
-        </div>
-        <div class="row">
-          <button id="game-option4" class="option-button">9</button>
-          <button id="game-option5" class="option-button">10</button>
-          <button id="game-option6" class="option-button">Miser</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- gameResult -->
-  <div id="modal3" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span id="close3" class="close" data-modal="modal3">&times;</span>
-      <h2 id="resultModalHeader">Select game results:</h2>
-
-      <div class="modal-options">
-        <div class="row">
-          <button id="results-option0" class="option-button">0</button>
-          <button id="results-option1" class="option-button">1</button>
-          <button id="results-option2" class="option-button">2</button>
-        </div>
-        <div class="row">
-
-          <button id="results-option3" class="option-button">3</button>
-          <button id="results-option4" class="option-button">4</button>
-          <button id="results-option5" class="option-button">5</button>
-        </div>
-        <div class="row">
-
-          <button id="results-option6" class="option-button">6</button>
-          <button id="results-option7" class="option-button">7</button>
-          <button id="results-option8" class="option-button">8</button>
-        </div>
-        <div class="row">
-          <button id="results-option9" class="option-button">9</button>
-          <button id="results-option10" class="option-button">10</button>
-          <button id="results-option11" class="option-button">Without 3</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- resetConfirmation -->
-  <div id="modal4" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span id="close4" class="close" data-modal="modal4">&times;</span>
-      <h2>Are you sure you want to start a new game?</h2>
-      <div class="modal-options">
-        <div class="row">
-          <button id="confirm" class="option-button" onclick="localStorage.clear(); location.reload()">Yes</button>
-          <button id="cancelReset" class="option-button cancel" data-modal="modal4">No</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- newGamePool -->
-  <div id="modal5" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span id="close5" class="close" data-modal="modal5">&times;</span>
-      <h2>Set a pool for a new game</h2>
-      <div class="modal-options">
-        <div class="row">
-          <input id="newGamePoolInput" type="number" placeholder="Enter pool value">
-        </div>
-        <div class="row">
-          <input id="playerName1" type="text" placeholder="Enter Player 1 Name">
-          <input id="playerName2" type="text" placeholder="Enter Player 2 Name">
-        </div>
-        <div  id="inputFieldsContainer" class="row">
-
-        </div>
-        <div class="row">
-          <button id="confirmNewGame" class="option-button">Yes</button>
-          <button id="cancelNewGame" class="option-button cancel" data-modal="modal5">Cancel</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- winnerCongrats -->
-  <div id="modal6" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span id="close6" class="close" data-modal="modal6">&times;</span>
-      <h2>Congratulations, we know the winner</h2>
-      <div class="modal-options">
-        <p id="winnerAnnouncement" class="modal-option" style="color: #6b5310;">Yes</p>
-
-        <h2>Do you want to start another game?</h2>
-        <div class="row">
-          <button id="setNewGame" class="option-button">Yes</button>
-          <button id="justCloseIt" class="option-button cancel" data-modal="modal6">Not yet</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-   <!-- setPlayers count -->
-   <div id="modal7" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span id="close7" class="close" data-modal="modal7">&times;</span>
-      <h2>Set the players number</h2>
-      <div class="modal-options">
-        <div class="row">
-          <button id="count2" class="option-button">2</button>
-          <button id="count3" class="option-button">3</button>
-          <button id="count4" class="option-button" >4</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="modal8" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span id="close8" class="close" data-modal="modal8">&times;</span>
-      <h2>Who will wist?</h2>
-      <div class="modal-options">
-        <div  id="wistFieldsContainer" class="row">
-        
-      </div>
-    </div>
-  </div>
-
-  </div>
-
 
 
 </body>

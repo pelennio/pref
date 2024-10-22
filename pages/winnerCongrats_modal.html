@@ -1,0 +1,27 @@
+<div id="winnerCongrats_modal">
+  <h2>Congratulations, we know the winner</h2>
+  <div class="modal-options">
+    <p id="winnerAnnouncement" class="modal-option" style="color: #6b5310">
+      Yes
+    </p>
+
+    <h2>Do you want to start another game?</h2>
+    <div class="row">
+      <button
+        id="setNewGame"
+        class="option-button"
+        onclick="closeModal(); loadModal('pages/playerCount_modal.html'); "
+      >
+        Yes
+      </button>
+      <button
+        id="justCloseIt"
+        class="option-button cancel"
+        data-modal="modal6"
+        onclick="closeModal();"
+      >
+        Not yet
+      </button>
+    </div>
+  </div>
+</div>

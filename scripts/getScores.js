@@ -32,6 +32,10 @@ export function getCurrentPoolString(player) {
   return localStorage.getItem(`${player}_Pool`);
 }
 
+export function getGamePool() {
+  return localStorage.getItem(`newPool`);
+}
+
 export function getCurrentWhistScore(player) {
   return localStorage.getItem(`${player}_Whist_Total`)
     ? Number(localStorage.getItem(`${player}_Whist_Total`))

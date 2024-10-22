@@ -46,6 +46,7 @@ function restorePreviousStorage() {
     "player4_Name",
     "playerCount",
     "newPool",
+    "winnerAnnouncement",
   ];
 
   // Clear local storage except for the specified keys

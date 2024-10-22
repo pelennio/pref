@@ -1,6 +1,7 @@
 import * as getScore from "./getScores.js";
 
 import * as calculations from "./common.js";
+import * as constructor from "./gameTableConstructor.js";
 
 var gameSet = {
   currentPlayer: 1,
@@ -22,6 +23,8 @@ export default gameSet;
 
 // Load data from localStorage after the page is loaded
 window.addEventListener("load", function () {
+  let count = localStorage.getItem("playerCount");
+  constructor.createTable(count);
   gameSet.player1_Name = getScore.getPlayerName(1);
   document.getElementById("poolText").textContent =
     localStorage.getItem("newPool") || 10;

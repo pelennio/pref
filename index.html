@@ -15,6 +15,8 @@
   <script type="module" src="scripts/helpers.js" type="text/javascript" defer></script>
   <script type="module" src="scripts/newGameSetUp.js" type="text/javascript" defer></script>
   <script type="module" src="scripts/newLap.js" type="text/javascript" defer></script>
+  <script type="module" src="scripts/uiConstructors/activePlayerButtons.js" type="text/javascript" defer></script>
+
   <!-- <script type="module" src="scripts/getScores.js" type="text/javascript" defer></script> -->
   <link rel="shortcut icon" href="#" />
 
@@ -30,7 +32,7 @@
 
       <!-- Buttons on the right -->
       <div class="button-container">
-        <button id="localReset" class="reset poker-button"  onclick="loadModal('pages/resetConfirmation_modal.html')">
+        <button id="localReset" class="reset poker-button" onclick="loadModal('pages/resetConfirmation_modal.html')">
           Start new game
         </button> </br>
 
@@ -40,44 +42,27 @@
       </div>
     </div>
 
-    <div class="container-1">
-      <table>
-        <thead>
-          <tr>
-            <th id="player1_Name" style="width: 50%">Player_1 </th>
-            <th id="player2_Name" style="width: 50%">Player_2</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td id="player1_Mountain">Mountain</td>
-            <td id="player2_Mountain">Mountain</td>
-          </tr>
-          <tr>
-            <td id="player1_Pool">Pool</td>
-            <td id="player2_Pool">Pool</td>
-          </tr>
-          <tr>
-            <td id="player1_Whist">Whist</td>
-            <td id="player2_Whist">Whist</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- <div class="container-1"> -->
+      <div id="tableContainer" class="container-1">
+     
 
       <!-- <button class="button">Start</button> -->
       <button id="playNewGame" class="container poker-button"
-      onclick="loadModal('./pages/newGameModal.html').then(setPlayersNames)">Play</button>    </div>
+        onclick="loadModal('./pages/newGameModal.html').then(generatePlayerButtons); ">
+         <!-- .then(setPlayersNames)" -->
+        Play</button>
+    </div>
   </div>
   </div>
 
-  
 
-  
+
+
 
 
   <!-- Modal container where content is dynamically inserted -->
-  
-<div id="modalContainerMain" class="modal">
+
+  <div id="modalContainerMain" class="modal">
     <div class="modal-content" id="modalContentMain">
       <span class="close" onclick="closeModal()">&times;</span>
       <!-- Modal content will be loaded here -->
@@ -86,4 +71,5 @@
 
 
 </body>
+
 </html>

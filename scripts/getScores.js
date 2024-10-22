@@ -1,4 +1,4 @@
-//Load all scores on page load
+// Load all scores on page load
 export function loadDataFromLocalStorage() {
   document.getElementById(`player1_Mountain`).textContent =
     getCurrentMountainString(1) || "...";

@@ -4,8 +4,11 @@ import * as common from "./common.js";
 
 //Play ->  the options for the current game is shown
 async function setActivePlayer(pl) {
+  // used for checking the raspasi number
+  const raspOption = localStorage.getItem("playerCount");
+
   document.getElementById("modalContainerMain").style.display = "none";
-  if (pl == 3) {
+  if (raspOption == pl) {
     gameSet.currentPlayer = 1;
     gameSet.raspasCount++;
     console.log("We're playing raspasi - count: ", gameSet.raspasCount);
@@ -16,6 +19,7 @@ async function setActivePlayer(pl) {
     }
   } else {
     gameSet.currentPlayer = pl;
+    console.log("You just set the active player to: ", pl);
     await loadModal("pages/gameCost_modal.html");
   }
 }

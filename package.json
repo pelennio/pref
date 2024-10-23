@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "This code implements the logic for a Whist-like game, using localStorage to keep track of player scores, including the pool, mountain, and whist points for two players (Anton and Olena). Here's a breakdown of the key elements:",
   "main": "1.js",
-  "scripts": {},
+  "scripts": {
+    "start": "npx live-server --port=5501"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

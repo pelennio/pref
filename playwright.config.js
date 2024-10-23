@@ -35,6 +35,7 @@ module.exports = defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+    baseURL: process.env.BASE_URL || "http://127.0.0.1:5501/",
   },
 
   /* Configure projects for major browsers */

@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Basic checks", async () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("http://127.0.0.1:5501/");
+    await page.goto("/");
   });
   test("has title", async ({ page }) => {
     // Expect a title "to contain" a substring.
@@ -38,7 +38,7 @@ test.describe("Basic checks", async () => {
 test.describe("set up a new game and play game", async () => {
   // Mark beforeEach as async
   test.beforeEach(async ({ page }) => {
-    await page.goto("http://127.0.0.1:5501/");
+    await page.goto("/");
     await page.getByRole("button", { name: "Start new game" }).click();
     await page.getByRole("button", { name: "Yes" }).click();
     await page.getByRole("button", { name: "2" }).click();

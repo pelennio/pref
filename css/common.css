@@ -147,6 +147,13 @@ th {
   text-align: center;
 }
 
+/* Media query for devices with screen width 768px or less (typically mobile) */
+@media only screen and (max-width: 768px) {
+  .modal-content {
+    width: 90%; /* Set width to 90% on mobile */
+  }
+}
+
 /* Close button for the modal */
 .close {
   color: #aaa;
@@ -316,7 +323,7 @@ button:hover {
   color: #f3c13a; /* Gold color for the text */
   font-size: 16px;
   font-weight: bold;
-
+  text-transform: uppercase;
   border: 2px solid #000; /* Black border */
   border-radius: 100px; /* Rounded button shape */
   padding: 15px 10px;

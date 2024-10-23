@@ -5,8 +5,9 @@ import * as common from "./common.js";
 //Play ->  the options for the current game is shown
 async function setActivePlayer(pl) {
   // used for checking the raspasi number
-  const raspOption = localStorage.getItem("playerCount");
+  const raspOption = Number(localStorage.getItem("playerCount")) + 1;
 
+  console.log(pl, raspOption, raspOption == pl + 1, typeof raspOption);
   document.getElementById("modalContainerMain").style.display = "none";
   if (raspOption == pl) {
     gameSet.currentPlayer = 1;

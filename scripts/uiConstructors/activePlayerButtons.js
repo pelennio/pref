@@ -1,6 +1,6 @@
 // Function to generate buttons based on playerCount
 function generatePlayerButtons() {
-  let playerCount = localStorage.getItem("playerCount");
+  let playerCount = Number(localStorage.getItem("playerCount"));
 
   // Array of player names (you can fetch this from localStorage or a config)
   const playerNames = [];
@@ -8,7 +8,7 @@ function generatePlayerButtons() {
     playerNames.push(localStorage.getItem(`player${i}_Name`));
     if (i == playerCount) playerNames.push("Raspasovka");
   }
-
+  console.log(playerNames);
   const modalOptions = document.getElementById("modalOptions");
   modalOptions.innerHTML = ""; // Clear existing buttons
 

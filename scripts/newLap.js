@@ -11,7 +11,7 @@ async function setActivePlayer(pl) {
   document.getElementById("modalContainerMain").style.display = "none";
   if (raspOption == pl) {
     gameSet.currentPlayer = 1;
-    gameSet.raspasCount++;
+    gameSet.raspasCount++; // add fix to not lost this value on reload
     console.log("We're playing raspasi - count: ", gameSet.raspasCount);
     await loadModal("pages/gameResult_modal.html");
     const newHeader = await waitForElement("resultModalHeader");

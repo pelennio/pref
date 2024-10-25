@@ -3,11 +3,12 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Basic checks", async () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto(`${process.env.BASE_URL}`);
   });
   test("has title", async ({ page }) => {
-    const currentURL = await page.url();
+    const currentURL = page.url();
     console.log("Current URL:", currentURL);
+    console.log(`Navigating to: ${process.env.BASE_URL}`);
     // Expect a title "to contain" a substring.
     await expect(page).toHaveTitle(/Pref score for 2/);
   });
@@ -40,7 +41,7 @@ test.describe("Basic checks", async () => {
 test.skip("set up a new game and play game", async () => {
   // Mark beforeEach as async
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto(`${process.env.BASE_URL}`);
     await page.getByRole("button", { name: "Start new game" }).click();
     await page.getByRole("button", { name: "Yes" }).click();
     await page.getByRole("button", { name: "2" }).click();

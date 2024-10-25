@@ -20,8 +20,9 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
         env:
-          CI: true
           BASE_URL: https://pelennio.github.io/pref/
+      - name: Print BASE_URL
+        run: echo "BASE_URL is $BASE_URL"
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:

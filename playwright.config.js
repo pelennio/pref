@@ -1,12 +1,5 @@
 // @ts-check
 const { defineConfig, devices } = require("@playwright/test");
-const baseUrl = process.env.BASE_URL || "http://127.0.0.1:5501/";
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config({ path: path.resolve(__dirname, '.env') });
-
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -32,11 +25,10 @@ module.exports = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: baseUrl,
+    baseURL: process.env.BASE_URL || "http://127.0.0.1:5501/",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
-    // baseURL: process.env.BASE_URL || "http://127.0.0.1:5501/",
   },
 
   /* Configure projects for major browsers */

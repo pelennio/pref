@@ -1,5 +1,6 @@
 // @ts-check
 import { test, expect } from "@playwright/test";
+require("dotenv").config();
 
 test.describe("Basic checks", async () => {
   test.beforeEach(async ({ page }) => {
@@ -38,7 +39,7 @@ test.describe("Basic checks", async () => {
   });
 });
 
-test.skip("set up a new game and play game", async () => {
+test.describe("set up a new game and play game", async () => {
   // Mark beforeEach as async
   test.beforeEach(async ({ page }) => {
     await page.goto(`${process.env.BASE_URL}`);

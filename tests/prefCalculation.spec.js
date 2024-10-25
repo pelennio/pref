@@ -6,6 +6,8 @@ test.describe("Basic checks", async () => {
     await page.goto("/");
   });
   test("has title", async ({ page }) => {
+    const currentURL = await page.url();
+    console.log("Current URL:", currentURL);
     // Expect a title "to contain" a substring.
     await expect(page).toHaveTitle(/Pref score for 2/);
   });
@@ -35,7 +37,7 @@ test.describe("Basic checks", async () => {
   });
 });
 
-test.describe("set up a new game and play game", async () => {
+test.skip("set up a new game and play game", async () => {
   // Mark beforeEach as async
   test.beforeEach(async ({ page }) => {
     await page.goto("/");

@@ -1,17 +1,41 @@
+const playerCount = localStorage.getItem("playerCount");
+
 // Load all scores on page load
+// export function loadDataFromLocalStorage() {
+//   document.getElementById(`player1_Mountain`).textContent =
+//     getCurrentMountainString(1) || "...";
+//   document.getElementById(`player2_Mountain`).textContent =
+//     getCurrentMountainString(2) || "...";
+//   document.getElementById(`player1_Pool`).textContent =
+//     getCurrentPoolString(1) || "...";
+//   document.getElementById(`player2_Pool`).textContent =
+//     getCurrentPoolString(2) || "...";
+//   document.getElementById(`player1_Whist`).textContent =
+//     getCurrentWhistString(1) || "...";
+//   document.getElementById(`player2_Whist`).textContent =
+//     getCurrentWhistString(2) || "...";
+// }
+
 export function loadDataFromLocalStorage() {
-  document.getElementById(`player1_Mountain`).textContent =
-    getCurrentMountainString(1) || "...";
-  document.getElementById(`player2_Mountain`).textContent =
-    getCurrentMountainString(2) || "...";
-  document.getElementById(`player1_Pool`).textContent =
-    getCurrentPoolString(1) || "...";
-  document.getElementById(`player2_Pool`).textContent =
-    getCurrentPoolString(2) || "...";
-  document.getElementById(`player1_Whist`).textContent =
-    getCurrentWhistString(1) || "...";
-  document.getElementById(`player2_Whist`).textContent =
-    getCurrentWhistString(2) || "...";
+  const elements = ["Mountain", "Pool", "Whist"];
+  const getDataFunctions = [
+    getCurrentMountainString,
+    getCurrentPoolString,
+    getCurrentWhistString,
+  ];
+
+  for (let player = 1; player <= playerCount; player++) {
+    elements.forEach((element, index) => {
+      // Get data for each player and element
+      const data = getDataFunctions[index](player);
+
+      // Check if data exists and element is present in the DOM
+      const elementId = document.getElementById(`player${player}_${element}`);
+      if (elementId) {
+        elementId.textContent = data || "...";
+      }
+    });
+  }
 }
 
 export function getCurrentMountainScore(player) {

@@ -11,11 +11,11 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pref score for 2</title>
-  <script type="module" src="scripts/main.js" type="text/javascript" defer></script>
-  <script type="module" src="scripts/helpers.js" type="text/javascript" defer></script>
-  <script type="module" src="scripts/newGameSetUp.js" type="text/javascript" defer></script>
-  <script type="module" src="scripts/newLap.js" type="text/javascript" defer></script>
-  <script type="module" src="scripts/uiConstructors/activePlayerButtons.js" type="text/javascript" defer></script>
+  <script type="module" src="scripts/main.js"></script>
+  <script type="module" src="scripts/uiConstructors/activePlayerButtons.js"></script>
+  <script type="module" src="scripts/helpers.js"></script>
+  <script type="module" src="scripts/newGameSetUp.js"></script>
+  <script type="module" src="scripts/newLap.js"></script>
 
   <!-- <script type="module" src="scripts/getScores.js" type="text/javascript" defer></script> -->
   <link rel="shortcut icon" href="#" />
@@ -45,18 +45,13 @@
     <!-- <div class="container-1"> -->
       <div id="tableContainer" class="container-1">
      
-
       <!-- <button class="button">Start</button> -->
       <button id="playNewGame" class="container poker-button"
         onclick="loadModal('./pages/newGameModal.html').then(generatePlayerButtons); ">
-         <!-- .then(setPlayersNames)" -->
         Play</button>
     </div>
   </div>
   </div>
-
-
-
 
 
 

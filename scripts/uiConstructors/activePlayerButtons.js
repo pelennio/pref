@@ -1,4 +1,5 @@
-// Function to generate buttons based on playerCount
+import { setActivePlayer } from "../newLap.js"; // Function to generate buttons based on playerCount
+
 function generatePlayerButtons() {
   let playerCount = Number(localStorage.getItem("playerCount"));
 

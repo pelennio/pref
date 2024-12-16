@@ -1,7 +1,6 @@
 import * as getScore from "./getScores.js";
-
 import * as calculations from "./common.js";
-import * as constructor from "./gameTableConstructor.js";
+import * as constructor from "./uiConstructors/gameStatsTable.js";
 
 var gameSet = {
   currentPlayer: 1,

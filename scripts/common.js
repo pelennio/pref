@@ -6,7 +6,7 @@ let player1_Name = getScore.getPlayerName(1);
 let player2_Name = getScore.getPlayerName(2);
 let player3_Name = getScore.getPlayerName(3);
 let player4_Name = getScore.getPlayerName(4);
-const aimPool = localStorage.getItem("newPool") || 10;
+const aimPool = Number(localStorage.getItem("newPool")) || 10;
 let scoreRas = 0;
 let player1_dealer = true;
 let leavingWithout3 = false;
@@ -181,46 +181,96 @@ function storeTheWinner(winnerAnnouncement) {
   );
 }
 
+function loadDataFromLocalStorage() {
+  const playerCount = Number(localStorage.getItem("playerCount")); // Assuming gameSet.playerCount holds the number of players
+
+  // Initialize variables for each player's scores
+  let playerScores = {
+    player1: {
+      Mountain: getScore.getCurrentMountainScore(1) || 0,
+      Pool: getScore.getCurrentPoolScore(1) || 0,
+      Whist: getScore.getCurrentWhistScore(1) || 0,
+    },
+    player2: {
+      Mountain: getScore.getCurrentMountainScore(2) || 0,
+      Pool: getScore.getCurrentPoolScore(2) || 0,
+      Whist: getScore.getCurrentWhistScore(2) || 0,
+    },
+    player3:
+      playerCount > 2
+        ? {
+            // Check if player 3 exists
+            Mountain: getScore.getCurrentMountainScore(3) || 0,
+            Pool: getScore.getCurrentPoolScore(3) || 0,
+            Whist: getScore.getCurrentWhistScore(3) || 0,
+          }
+        : undefined, // Set to undefined if player 3 doesn't exist
+    player4:
+      playerCount > 3
+        ? {
+            // Check if player 4 exists
+            Mountain: getScore.getCurrentMountainScore(4) || 0,
+            Pool: getScore.getCurrentPoolScore(4) || 0,
+            Whist: getScore.getCurrentWhistScore(4) || 0,
+          }
+        : undefined, // Set to undefined if player 4 doesn't exist
+  };
+  return playerScores;
+}
+
 // count current scores
 export function resultsScore() {
-  // read all current data from local storage and save them as variables
-  let player1_Mountain = getScore.getCurrentMountainScore(1);
-  let player2_Mountain = getScore.getCurrentMountainScore(2);
-  let player1_Pool = getScore.getCurrentPoolScore(1);
-  let player2_Pool = getScore.getCurrentPoolScore(2);
-  let player1_Whist = getScore.getCurrentWhistScore(1);
-  let player2_Whist = getScore.getCurrentWhistScore(2);
+  const playerCount = Number(localStorage.getItem("playerCount"));
+  const playerScores = loadDataFromLocalStorage();
+  let mountains = [];
 
   // Add Mountain for player with insufficient pool
-  if (player1_Pool < aimPool) {
-    player1_Mountain = player1_Mountain + (aimPool - player1_Pool) * 2;
-    player1_Pool = aimPool;
+  if (playerScores.player1.Pool < aimPool) {
+    playerScores.player1.Mountain =
+      playerScores.player1.Mountain + (aimPool - playerScores.player1.Pool) * 2;
+    playerScores.player1.Pool = aimPool;
   }
-  if (player2_Pool < aimPool) {
-    player2_Mountain = player2_Mountain + (aimPool - player2_Pool) * 2;
-    player2_Pool = aimPool;
+  if (playerScores.player2.Pool < aimPool) {
+    playerScores.player2.Mountain =
+      playerScores.player2.Mountain + (aimPool - playerScores.player2.Pool) * 2;
+    playerScores.player2.Pool = aimPool;
+  }
+
+  for (let i = 1; i <= playerCount; i++) {
+    mountains.push(playerScores[`player${i}`].Mountain);
+  }
+  console.log("mountains", mountains);
+  const minMountainScore = Math.min(...mountains);
+  console.log("minMountainScore", minMountainScore);
+
+  // adjust all mountins regardin to min value
+  for (let i = 1; i <= playerCount; i++) {
+    playerScores[`player${i}`].Mountain -= minMountainScore;
+    console.log("mountains", playerScores[`player${i}`].Mountain);
   }
   // Adjust Mountain and Whist scores
-  if (player1_Mountain < player2_Mountain) {
-    player2_Mountain -= player1_Mountain;
-    player1_Whist += player2_Mountain * 5;
-    player1_Mountain = 0;
-  } else if (player1_Mountain > player2_Mountain) {
-    player1_Mountain -= player2_Mountain;
-    player2_Whist += player1_Mountain * 5;
-    player2_Mountain = 0;
-  } else {
-    player1_Mountain = player2_Mountain = 0;
-  }
-
+  // if (playerScores.player1.Mountain < playerScores.player2.Mountain) {
+  //   playerScores.player2.Mountain -= playerScores.player1.Mountain;
+  //   playerScores.player1.Whist += playerScores.player2.Mountain * 5;
+  //   playerScores.player1.Mountain = 0;
+  // } else if (playerScores.player1.Mountain > playerScores.player2.Mountain) {
+  //   playerScores.player1.Mountain -= playerScores.player2.Mountain;
+  //   playerScores.player2.Whist += playerScores.player1.Mountain * 5;
+  //   playerScores.player2.Mountain = 0;
+  // } else {
+  //   playerScores.player1.Mountain = playerScores.player2.Mountain = 0;
+  // }
+  playerScores.player1.Whist += playerScores.player2.Mountain * 5;
+  playerScores.player2.Whist += playerScores.player1.Mountain * 5;
+  playerScores.player1.Mountain = playerScores.player2.Mountain = 0;
   // Normalize Whist scores
-  let midWhist = (player1_Whist + player2_Whist) / 2;
-  player1_Whist -= midWhist;
-  player2_Whist -= midWhist;
+  let midWhist = (playerScores.player1.Whist + playerScores.player2.Whist) / 2;
+  playerScores.player1.Whist -= midWhist;
+  playerScores.player2.Whist -= midWhist;
 
   // Calculate final results for each player
-  let resultsPl1 = player1_Whist - player2_Whist;
-  let resultsPl2 = player2_Whist - player1_Whist;
+  let resultsPl1 = playerScores.player1.Whist - playerScores.player2.Whist;
+  let resultsPl2 = playerScores.player2.Whist - playerScores.player1.Whist;
 
   // Toggle dealer and update player names with results
   player1_dealer = !player1_dealer;

@@ -1,13 +1,12 @@
 import gameSet from "./main.js";
 import * as getScore from "./getScores.js";
 import * as common from "./common.js";
+import { createWistFields } from "./uiConstructors/wistsButtons.js";
 
 //Play ->  the options for the current game is shown
-async function setActivePlayer(pl) {
+export async function setActivePlayer(pl) {
   // used for checking the raspasi number
   const raspOption = Number(localStorage.getItem("playerCount")) + 1;
-
-  console.log(pl, raspOption, raspOption == pl + 1, typeof raspOption);
   document.getElementById("modalContainerMain").style.display = "none";
   if (raspOption == pl) {
     gameSet.currentPlayer = 1;
@@ -24,67 +23,12 @@ async function setActivePlayer(pl) {
     await loadModal("pages/gameCost_modal.html");
   }
 }
-window.setActivePlayer = setActivePlayer;
-
-// Function to create wist fields based on variable value
-export function createWistFields(count) {
-  const wistFieldsContainer = document.getElementById("wistFieldsContainer");
-  let wistOption = [0]; // Start with the "Nobody" option
-  wistFieldsContainer.innerHTML = ""; // Clear previous fields
-
-  for (let i = 0; i <= count; i++) {
-    // Skip the current player if they are the one
-    if (i > 0 && gameSet.currentPlayer == i) {
-      continue;
-    }
-
-    const button = document.createElement("button");
-    button.id = `wist${i}`;
-
-    if (i == 0) {
-      button.innerText = `Nobody`; // Label for the "Nobody" option
-    } else {
-      button.innerText = getScore.getPlayerName(i); // Get the player name for other players
-      wistOption.push(i); // Add the player index to wistOption array
-    }
-
-    button.className = "option-button";
-    wistFieldsContainer.appendChild(button); // Append the button to the container
-  }
-
-  // Add click event listeners for each wist option
-  wistOption.forEach((option) => {
-    document.getElementById(`wist${option}`).onclick = () =>
-      handleWistPlayer(option);
-  });
-}
-// we choose who will wist
-// async function handleWistPlayer(player) {
-//   let name;
-//   if (player == 1) {
-//     name = getScore.getPlayerName(1);
-//     gameSet.whistPlayer = 1;
-//     gameSet.resultHeader = `How many twicks did ${name} take?`;
-//     // Instead of calling updateText() immediately, pass the function reference updateText to then(). This ensures that updateText is only called after loadModal() is complete.
-//     loadModal("pages/gameResult_modal.html").then(updateText);
-//   } else if (player == 2) {
-//     name = getScore.getPlayerName(2);
-//     gameSet.whistPlayer = 2;
-//     loadModal("pages/gameResult_modal.html").then(updateText);
-//     gameSet.resultHeader = `How many twicks did ${name} take?`;
-//   } else if (player == 0) {
-//     gameSet.playersTricks = gameSet.currentGame;
-//     gameSet.noWist = true;
-//     common.runResultsCalculation();
-//     document.getElementById("modalContainerMain").style.display = "none";
-//   }
-//   document.getElementById("modalContainerMain").style.display = "none";
-// }
+// window.setActivePlayer = setActivePlayer;
 
 // We choose who will wist
-async function handleWistPlayer(player) {
+export async function handleWistPlayer(player) {
   let name;
-  if (player === 1 || player === 2) {
+  if (player === 1 || player === 2 || player === 3) {
     name = getScore.getPlayerName(player);
     gameSet.whistPlayer = player;
     document.getElementById("modalContainerMain").style.display = "none";
@@ -113,11 +57,13 @@ async function setBulletPoints(contract) {
   gameSet.raspasCount = 0;
   let whoPlays = ""; // used for the question on UI - who plays
   // Determine the current player
-  whoPlays = gameSet.currentPlayer === 1 ? player1_Name : player2_Name;
+
+  whoPlays = getScore.getPlayerName(gameSet.currentPlayer);
+  // whoPlays = gameSet.currentPlayer === 1 ? player1_Name : player2_Name;
   gameSet.currentGameCost = contract;
   console.log(gameSet.currentGameCost, "gameSet.currentGameCost");
   document.getElementById("modalContainerMain").style.display = "none";
-  const playerCount = localStorage.getItem("playerCount");
+  const playerCount = Number(localStorage.getItem("playerCount"));
   await loadModal("pages/whoWillWist_modal.html");
   createWistFields(playerCount);
 }
